@@ -131,7 +131,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(1919, 4, 15),
       url: 'https://example.com/1919.pdf',
       status: 'paid',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1919'
     });
 
     this.subscription.createInvoice({
@@ -139,7 +140,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(2010, 1, 14),
       url: 'https://example.com/2010.pdf',
       status: 'paid',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1920'
     });
 
     this.subscription.createInvoice({
@@ -147,7 +149,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(2010, 2, 14),
       url: 'https://example.com/20102.pdf',
       status: 'open',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1921'
     });
 
     await profilePage.visit();
@@ -170,14 +173,14 @@ module('Acceptance | profile/billing', function (hooks) {
     profilePage.billing.invoices.items[0].as(march2010 => {
       assert.equal(march2010.invoiceUrl.href, 'https://example.com/20102.pdf');
       assert.equal(march2010.invoiceDate, 'March 14, 2010');
-      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1919');
+      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1921');
       assert.equal(march2010.invoiceCardPrice, '$69.00');
     });
 
     profilePage.billing.invoices.items[1].as(february2010 => {
       assert.equal(february2010.invoiceUrl.href, 'https://example.com/2010.pdf');
       assert.equal(february2010.invoiceDate, 'February 14, 2010');
-      assert.equal(february2010.invoiceCardDigits, '•••• •••• •••• 1919');
+      assert.equal(february2010.invoiceCardDigits, '•••• •••• •••• 1920');
       assert.equal(february2010.invoiceCardPrice, '$69.00');
     });
   });
@@ -189,7 +192,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(2009, 4, 15),
       url: 'https://example.com/2009.pdf',
       status: 'paid',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1919'
     });
 
     this.subscription.createInvoice({
@@ -197,7 +201,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(2010, 1, 14),
       url: 'https://example.com/2010.pdf',
       status: 'paid',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1920'
     });
 
     this.subscription.createInvoice({
@@ -205,7 +210,8 @@ module('Acceptance | profile/billing', function (hooks) {
       created_at: new Date(2010, 2, 14),
       url: 'https://example.com/20102.pdf',
       status: 'paid',
-      amount_due: 6900
+      amount_due: 6900,
+      cc_last_digits: '1921'
     });
 
     await profilePage.visit();
@@ -216,14 +222,14 @@ module('Acceptance | profile/billing', function (hooks) {
     profilePage.billing.invoices.items[0].as(march2010 => {
       assert.equal(march2010.invoiceUrl.href, 'https://example.com/20102.pdf');
       assert.equal(march2010.invoiceDate, 'March 14, 2010');
-      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1919');
+      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1921');
       assert.equal(march2010.invoiceCardPrice, '$69.00');
     });
 
     profilePage.billing.invoices.items[1].as(february2010 => {
       assert.equal(february2010.invoiceUrl.href, 'https://example.com/2010.pdf');
       assert.equal(february2010.invoiceDate, 'February 14, 2010');
-      assert.equal(february2010.invoiceCardDigits, '•••• •••• •••• 1919');
+      assert.equal(february2010.invoiceCardDigits, '•••• •••• •••• 1920');
       assert.equal(february2010.invoiceCardPrice, '$69.00');
     });
 
@@ -241,7 +247,7 @@ module('Acceptance | profile/billing', function (hooks) {
     profilePage.billing.invoices.items[0].as(march2010 => {
       assert.equal(march2010.invoiceUrl.href, 'https://example.com/20102.pdf');
       assert.equal(march2010.invoiceDate, 'March 14, 2010');
-      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1919');
+      assert.equal(march2010.invoiceCardDigits, '•••• •••• •••• 1921');
       assert.equal(march2010.invoiceCardPrice, '$69.00');
     });
   });
