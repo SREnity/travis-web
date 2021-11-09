@@ -1,0 +1,64 @@
+<table class="responsive-table table-default notification-table" id="user_notifications_table">
+  <thead id="table-head">
+    <tr>
+      <th>
+        <label>
+          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <span></span>
+        </label>
+      </th>
+      <th class="sort-btn">Alert</th>
+      <th class="sort-btn">Type</th>
+      <th class="sort-btn">Plugin</th>
+      <th class="sort-btn">Product</th>
+      <th class="sort-btn">Category</th>
+      <th>Message</th>
+      <th>Details</th>
+      <th class="notification-status">Status</th>
+    </tr>
+  </thead>
+  <tbody class="table-body" id="table-body">
+    {{#each this.notifications as |notification|}}
+      <tr class="tableRow" id="notification-{{notification.id}}">
+        <td>
+          <label>
+            <input class="checkbox-table filled-in" id="{{notification.id}}" type="checkbox" />
+            <span></span>
+          </label>
+        </td>
+        <td>
+          <div class="icon-alert-{{notification.weightClass}}"></div>
+        </td>
+        <td>
+          {{notification.type}}
+        </td>
+        <td>
+          {{notification.pluginName}}
+        </td>
+        <td>
+          {{notification.pluginType}}
+        </td>
+        <td>
+          {{notification.pluginCategory}}
+        </td>
+        <td>
+          {{notification.message}}
+        </td>
+        <td>
+          <a class="detailsLink modal-trigger" id="{{notification.id}}">Learn More</a>
+        </td>
+        <td>
+          {{notification.activeStatus}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<PaginationNavigation
+  @collection={{this.notifications}}
+  @tagName="div"
+  @route="insights.notifications"
+  @queryParam="page"
+  @inner={{4}}
+  @outer={{0}}
+/>

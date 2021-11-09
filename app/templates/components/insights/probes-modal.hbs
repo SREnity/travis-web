@@ -1,0 +1,250 @@
+<Modal
+  @isVisible={{@isOpen}}
+  @onClose={{fn @onClose}}
+>
+  <div class="modal modal-fixed-footer" id="tests-modal">
+    <TravisForm
+      @onSubmit={{perform this.save}}
+      @id='tests-modal-form'
+      @class='modal-form'
+      as |form|
+    >
+      <div class="modal-content">
+        <h6 class="modal-h6">
+          {{if (eq probeType 'normal') 'Add new Built-in Probe' 'Add new Custom Probe'}}
+        </h6>
+
+        <fieldset class="modal-field">
+          <legend class="tooltipped modal-field-legend"> Product</legend>
+          <form.field
+            @value={{this.selectedPlugin}}
+            @required={{true}}
+            @onChange={{action (mut this.selectedPlugin)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.select
+              class="modal-input"
+              @searchEnabled={{false}}
+              @placeholder="Select product"
+              @selected={{this.selectedPlugin}}
+              @onchange={{action (mut this.selectedPlugin)}}
+              @search={{perform this.search}}
+              as |plugin|
+            >
+              {{plugin.name}}
+            </field.select>
+          </form.field>
+          <div id="testsOverlayDisplayLabels">
+            <span id="testTypeKey" class='label-key'> Type:</span>
+            {{#if (eq probeType 'normal')}}
+              <span id="testTypeVal" class='label-val'>Native</span>
+            {{else if (eq probeType 'custom')}}
+              <span id="testTypeVal" class='label-val'>Custom</span>
+            {{/if}}
+          </div>
+        </fieldset>
+        <fieldset class="modal-field" id="testsOverlayProbe">
+          <legend class="tooltipped modal-field-legend"> Probe</legend>
+          <form.field
+            @value={{this.selectedProbe}}
+            @required={{true}}
+            @onChange={{action (mut this.selectedProbe)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.select
+              class="modal-input"
+              @searchEnabled={{false}}
+              @placeholder="Select probe"
+              @selected={{this.selectedProbe}}
+              @onchange={{action (mut this.selectedProbe)}}
+              @search={{perform this.search}}
+              as |probe|
+            >
+              {{probe.name}}
+            </field.select>
+          </form.field>
+        </fieldset>
+        <fieldset class="modal-field">
+          <legend class="tooltipped modal-field-legend"> Notification</legend>
+          <form.field
+            @value={{this.notification}}
+            @required={{true}}
+            @onChange={{action (mut this.notification)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.input id="testsOverlayNotification" class="modal-input" placeholder="Enter probe notification text" />
+          </form.field>
+        </fieldset>
+        <fieldset class="modal-field">
+          <legend class="tooltipped modal-field-legend"> Description</legend>
+          <form.field
+            @value={{this.description}}
+            @required={{true}}
+            @onChange={{action (mut this.description)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.textarea id="testsOverlayDescription" class="modal-input" placeholder="Enter probe description" />
+          </form.field>
+        </fieldset>
+        <fieldset class="modal-field">
+          <legend class="tooltipped modal-field-legend"> Query</legend>
+          <form.field
+            @value={{this.query}}
+            @required={{true}}
+            @onChange={{action (mut this.query)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.textarea id="testsOverlayTest" class="modal-input" placeholder="Probe query" />
+          </form.field>
+          <span class="{{if (eq probeType 'normal') 'hide-well'}}" id="openQueryEditor" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
+            Open Query Editor
+          </span>
+          <span class="{{if (eq probeType 'custom') 'hide-well'}}" id="editQuery" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
+            Edit Query
+          </span>
+        </fieldset>
+        <fieldset class="modal-field">
+          <form.field
+            @value={{this.overlayType}}
+            @onChange={{action (mut this.overlayType)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.input id="testsOverlayType" class="modal-input" />
+          </form.field>
+          <form.field
+            @value={{this.overlayLabelsName}}
+            @onChange={{action (mut this.overlayLabelsName)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.input id="testsOverlayLabelsName" class="modal-input" />
+          </form.field>
+          <form.field
+            @value={{this.overlaysLabelsUrl}}
+            @onChange={{action (mut this.overlaysLabelsUrl)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            as |field|
+          >
+            <field.input id="testsOverlayLabelsUrl" class="modal-input" />
+          </form.field>
+          <legend class="tooltipped modal-field-legend"> Tags</legend>
+          <div class="chips-input chips-autocomplete">
+            <form.field
+              @value={{this.tags}}
+              @onChange={{action (mut this.tags)}}
+              @showValidationStatusIcons={{false}}
+              @showValidationStatusMessage={{false}}
+              as |field|
+            >
+              <field.input id="tagInput" class="tags modal-input" maxlength="20" type="text" autocomplete="off" />
+            </form.field>
+          </div>
+        </fieldset>
+        <div class="category-section">
+          <span class="category">
+            <i class="fa fa-info-circle tooltipped"></i>
+            Category:
+          </span>
+          <span id="testsOverlayCategory"></span>
+
+          <div class="action-items pull-right help-link">
+            <span id="addHelpLink">
+              Add help link
+            </span>
+          </div>
+        </div>
+        <div class="hide-well" id="helpLinkInput">
+          <fieldset class="modal-field">
+            <legend class="tooltipped modal-field-legend"> Further Reading</legend>
+            <form.field
+              @value={{this.furtherReadingLink}}
+              @required={{true}}
+              @onChange={{action (mut this.furtherReadingLink)}}
+              @showValidationStatusIcons={{false}}
+              @showValidationStatusMessage={{false}}
+              as |field|
+            >
+              <field.input class="modal-input" placeholder="Insert relevant link from documentation" type="text" />
+            </form.field>
+          </fieldset>
+          <div class="modal-text">
+            You can add a relevant link from the vendor (service provider) which corresponds to the probe’s scope, to shed more light to the purpose of the tests for future reference.
+          </div>
+        </div>
+        <fieldset class="modal-field">
+          <legend class="tooltipped modal-field-legend"> Probe Weighting</legend>
+          <table class="centered">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"> Security</th>
+                <th scope="col"> Cost</th>
+                <th scope="col"> Delivery</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"> Architecture</th>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestSAW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestCAW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestDAW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"> Maintenance</th>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestSMW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestCMW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry-margin" id="testsOverlayTestDMW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"> Support</th>
+                <td>
+                  <input class="table-entry" id="testsOverlayTestSSW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry" id="testsOverlayTestCSW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+                <td>
+                  <input class="table-entry" id="testsOverlayTestDSW" type="number" min=0 max=1 step=0.05 value=0 />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn btn-link" {{on 'click' (fn @onClose)}}>Cancel</a>
+        <a class="modal-save waves-effect waves-light btn btn-primary" id="probe-submit-btn">Add</a>
+      </div>
+    </TravisForm>
+  </div>
+</Modal>
+<Insights::ProbeQueryModal
+  @isOpen={{this.probeQueryEditorModal}}
+  @onClose={{fn (mut this.probeQueryEditorModal) false}}  
+/>

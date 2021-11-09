@@ -1,0 +1,37 @@
+<Modal
+  @isVisible={{@isOpen}}
+  @onClose={{fn @onClose}}
+>
+  <div class="modal notification-modal modal-fixed-footer" id="modal1">
+    <div class="modal-content notification-modal-content">
+      <h6>Notifications Details</h6>
+      <fieldset class="modal-field notification-modal-field">
+        <legend class='tooltipped modal-field-legend'> Plugin Source</legend>
+        <p class="modal-input modal-notification-input" id="notificationPluginSource" type="text"></p>
+      </fieldset>
+      <fieldset class="modal-field notification-modal-field">
+        <legend class='tooltipped modal-field-legend'> Alert Status</legend>
+        <p class="modal-input modal-notification-input" id="notificationAlertStatus" type="text"></p>
+      </fieldset>
+      <fieldset class="modal-field notification-modal-field">
+        <legend class='tooltipped modal-field-legend'> Notification Message</legend>
+        <p class="modal-input modal-notification-input" id="notificationMessage" type="text"></p>
+      </fieldset>
+      <fieldset class="modal-field notification-modal-field">
+        <legend class='tooltipped modal-field-legend'> Instance Name</legend>
+        <p class="modal-input modal-notification-input" id="notificationInstanceName" type="text"></p>
+      </fieldset>
+      <fieldset class="modal-field notification-modal-field">
+        <legend class="modal-field-legend"> Description</legend>
+        <p class="modal-input modal-notification-input" id="notificationDescription" type="text"></p>
+      </fieldset>
+      <fieldset class="modal-field notification-modal-field">
+        <llegend class="modal-field-legend"> Further Reading</llegend>
+        <p class="modal-input modal-notification-input" id="notificationReading" type="text"></p>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-close waves-effect waves-light btn btn-primary" {{on 'click' (fn @onClose)}}> Cancel</a>
+    </div>
+  </div>
+</Modal>

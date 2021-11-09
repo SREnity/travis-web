@@ -1,0 +1,65 @@
+<table class="responsive-table table-default plugins-table" id="plugins_table">
+  <thead>
+    <tr>
+      <th class="checks">
+        <label>
+          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <span></span>
+        </label>
+      </th>
+      <th class="sort-btn" scope="col"> Plugin</th>
+      <th class="key-id" scope="col"> Key ID</th>
+      <th class="sort-btn" scope="col"> Product</th>
+      <th class="sort-btn" scope="col"> Category</th>
+      <th class="last-scan sort-btn" scope="col"> Last Scan</th>
+      <th class="scan-status" scope="col"> Scan Status</th>
+      <th class="scan-details" scope="col">Scan Details</th>
+      <th class="plugin-status" scope="col"> Plugin Status</th>
+    </tr>
+  </thead>
+  <tbody id="plugins-table-body">
+    {{#each this.plugins as |plugin|}}
+    <tr class="tableRow" id="plugin-{{plugin.id}}">
+      <td>
+        <label>
+          <input class="checkbox-table filled-in" id="{{plugin.id}}" type="checkbox" />
+          <span></span>
+        </label>
+      </td>
+      <td>
+        {{plugin.name}}
+      </td>
+      <td>
+        {{plugin.publicId}}
+      </td>
+      <td>
+        {{plugin.pluginType}}
+      </td>
+      <td>
+        {{plugin.pluginCategory}}
+      </td>
+      <td>
+        {{plugin.lastScanEndedAt}}
+      </td>
+      <td>
+        <div class="icon-scan-status icon-scan-{{plugin.scanStatus}}"></div>
+        <span>{{plugin.scanStatus}}</span>
+      </td>
+      <td>
+        <a class="scanDetailsLink modal-trigger" data-user_plugin_id="{{plugin.id}}" href="#scandetails-modal" id="{{plugin.name}}">Scan Log</a>
+      </td>
+      <td>
+        {{plugin.pluginStatus}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<PaginationNavigation
+  @collection={{this.plugins}}
+  @tagName="div"
+  @route="insights.plugins"
+  @queryParam="page"
+  @inner={{4}}
+  @outer={{0}}
+/>

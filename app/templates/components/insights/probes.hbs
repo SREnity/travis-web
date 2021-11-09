@@ -1,0 +1,72 @@
+<div class="user-tests" id="user-tests">
+  <section class="user-tests__header">
+    <header>
+      <h5>Probes</h5>
+      <p class="subtitle-2">
+        {{#if this.lastScanEndedAt}}
+          Last Scan: {{this.lastScanEndedAt}}
+        {{/if}}
+      </p>
+    </header>
+  </section>
+  <section class="user-tests__content">
+    <header>
+      <h6>Daily Probe List</h6>
+    </header>
+    {{#basic-dropdown as |dd|}}
+      {{#dd.trigger class='modal-field active-probe-filter browser-default probe-input-filter dropdown-trigger'}}
+        <span id="active-probe-text">Active Probes</span>
+      {{/dd.trigger}}
+      {{#dd.content class='dropdown-content'}}
+        <li>
+          <a class="dropdown-list-elements" id="all-probe-filter">All Probe</a>
+        </li>
+        <li>
+          <a class="dropdown-list-elements dropdown-selected">Active Probe</a>
+        </li>
+        <li>
+          <a class="dropdown-list-elements">Inactive Probe</a>
+        </li>
+      {{/dd.content}}
+    {{/basic-dropdown}}
+    <section class="user-tests-actions">
+      <div class="user-tests-actions__items action-items">
+        {{#basic-dropdown as |dd|}}
+          {{#dd.trigger class='waves-effect waves-sre-action action-btn user-tests-input-filter dropdown-trigger'}}
+            <span id="new-probe-span">New Probe</span>
+          {{/dd.trigger}}
+          {{#dd.content class='dropdown-content'}}
+            <li>
+              <a href="#!" id="newBuiltinProbe" {{on 'click' (action 'openNormalProbeModal' dd)}}> New built-in probe</a>
+            </li>
+            <li>
+              <a href="#!" id="newCustomProbe" {{on 'click' (action 'openCustomProbeModal' dd)}}> New custom probe</a>
+            </li>
+          {{/dd.content}}
+        {{/basic-dropdown}}
+        <a class="action-item waves-effect waves-light disabled action-btn edit-btn" id="user-tests-button-edit">Edit Probe</a>
+        <a class="deactive-test-btn action-item waves-effect waves-light disabled action-btn" id="user-tests-button-toggle">Toggle Probe</a>
+        <div class="action-item waves-effect waves-light disabled action-btn" id="user-test-action-delete">Delete Probe</div>
+        <div class="refresh-page-button waves-effect waves-light action-btn">
+          <SvgImage @name="icon-reload" @class="ico-refresh-page" />
+          Refresh the list
+        </div>
+      </div>
+      <div class="user-tests-actions__search">
+        <div class="notify-input-search input-search">
+          <SvgImage @name="icon-insights-search" @class="input-search-icon" />
+          <Input
+            class="notify-input-search__input"
+            placeholder="Search Type, Product, Category, Message, Tags"
+          />
+        </div>
+      </div>
+    </section>
+    <Insights::ProbesList />
+  </section>
+</div>
+<Insights::ProbesModal
+  @isOpen={{this.showProbesModal}}
+  @onClose={{fn (mut this.showProbesModal) false}}
+  @probeType={{this.probeType}}
+/>

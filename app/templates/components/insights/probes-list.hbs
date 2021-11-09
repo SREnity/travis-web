@@ -1,0 +1,73 @@
+<table class="user-tests__table table-default responsive-table" id="tests_table">
+  <thead>
+    <tr>
+      <th>
+        <label>
+          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <span></span>
+        </label>
+      </th>
+      <th class="sort-btn" scope="col"> Type</th>
+      <th class="sort-btn" scope="col"> Product</th>
+      <th class="sort-btn" scope="col"> Category</th>
+      <th scope="col"> Message</th>
+      <th scope="col"> Tags</th>
+      <th class="template-status" scope="col"> Status</th>
+    </tr>
+  </thead>
+  <tbody id="test-table-body">
+    {{#each this.probes as |probe|}}
+    <tr class="tableRow" id="test-{{probe.id}}">
+      <td>
+        <label>
+          <input class="checkbox-table filled-in" id="{{probe.id}}" type="checkbox" />
+          <span></span>
+        </label>
+      </td>
+      <td>
+        {{probe.type}}
+      </td>
+      <td>
+        <span>{{probe.pluginTypeName}}</span>
+        <span></span>
+        {{#if probe.labels}}
+          {{#if (and probe.sponsorName (eq probe.type 'native'))}}
+            <ExternalLinkTo
+              @href={{probe.sponsorUrl}}
+              class="action-label"
+            >
+              Created by {{probe.sponsorName}}
+            </ExternalLinkTo>
+          {{/if}}
+          {{#if (and probe.sponsorName (eq probe.type 'custom'))}}
+            <ExternalLinkTo
+              @href={{probe.sponsorUrl}}
+              class="action-label"
+            >
+              Based on {{probe.sponsorName}}
+            </ExternalLinkTo>
+          {{/if}}
+        {{/if}}
+      </td>
+      <td>
+        {{probe.pluginCategoryName}}
+      </td>
+      <td>
+        {{probe.notification}}
+      </td>
+      <td class="chipCell{{probe.id}}"></td>
+      <td>
+        {{probe.status}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<PaginationNavigation
+  @collection={{this.probes}}
+  @tagName="div"
+  @route="insights.probes"
+  @queryParam="page"
+  @inner={{4}}
+  @outer={{0}}
+/>

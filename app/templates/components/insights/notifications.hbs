@@ -1,0 +1,51 @@
+<div class="row notification-row">
+  <div id="notification-first-col">
+    <h5>Notifications</h5>
+    {{#if this.lastScanEndedAt}}
+    <p>
+      Last Scan: {{this.lastScanEndedAt}}
+    </p>
+    {{/if}}
+  </div>
+  <div id="notificationCol">
+    <h6>Daily Notification List</h6>
+    {{#basic-dropdown as |dd|}}
+      {{#dd.trigger class='modal-field active-notification-filter browser-default notify-input-filter dropdown-trigger'}}
+        <span id="active-notifications-span">Active Notifications</span>
+      {{/dd.trigger}}
+
+      {{#dd.content class='dropdown-content'}}
+        <li>
+          <a id="AllNotifications" class='dropdown-list-elements'>All Notifications</a>
+        </li>
+        <li>
+          <a id="ActiveNotifications" class='dropdown-selected dropdown-list-elements'>Active Notifications</a>
+        </li>
+        <li>
+          <a id="SnoozeNotifications" class="dropdown-list-elements">Snoozed Notifications</a>
+        </li>
+      {{/dd.content}}
+    {{/basic-dropdown}}
+    <section class="notify-actions">
+      <div class="notify-actions__items action-items">
+        <div class="waves-effect waves-light action-btn notify-input-filter snooze-disabled snooze-button" id="notify-snooze-button">Snooze Notifications</div>
+        <div class="refresh-page-button waves-effect waves-light action-btn">
+          <SvgImage @name="icon-reload" @class="ico-refresh-page" />
+          Refresh the list
+        </div>
+      </div>
+      <div class="notify-actions__search">
+        <div class="notify-input-search input-search">
+          <SvgImage @name="icon-insights-search" @class="input-search-icon" />
+          <Input
+            class="notify-input-search__input"
+            placeholder="Search Type, Plugin, Product, Category, Message"
+          />
+        </div>
+      </div>
+    </section>
+    <Insights::NotificationsList
+      @notifications={{this.notifications}}
+    />
+  </div>
+</div>

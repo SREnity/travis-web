@@ -1,0 +1,20 @@
+<Modal
+  @isVisible={{@isOpen}}
+  @onClose={{fn @onClose}}
+>
+  <div class="modal modal-fixed-footer" id="scandetails-modal">
+    <div class="scan-details-modal modal-content" id="scan-details-modal-content">
+      <div class="scanlog-plugin modal-scan-log-input">
+        Scan Log for {{plugin.name}}
+      </div>
+      <div class="last-scan-label">
+        Only details from the last scan is shown.
+      </div>
+      <div class="scan-log-result">
+      </div>
+    </div>
+    <div class="modal-footer" id="scanFooter">
+      <a class="modal-close waves-effect waves-light btn btn-primary" id="closeScanLogModal" {{on 'click' (fn @onClose)}}>Close</a>
+    </div>
+  </div>
+</Modal>

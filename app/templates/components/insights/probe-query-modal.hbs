@@ -1,0 +1,92 @@
+<Modal
+  @isVisible={{@isOpen}}
+  @onClose={{fn @onClose}}
+>
+  <div class="modal modal-fixed-footer" id="sandbox-modal">
+    <TravisForm
+      @onSubmit={{perform this.save}}
+      @id='plugins-modal-form'
+      @class='sandbox-modal-form modal-form'
+      as |form|
+    >
+      <div class='modal-content'>
+        <h6 class='modal-h6'>
+          Probe Editor
+        </h6>
+        <div class="plugin-select-container">
+          <fieldset class="modal-field">
+            <legend class="tooltipped modal-field-legend"> Plugin</legend>
+            <form.field
+              @value={{this.selectedPlugin}}
+              @required={{true}}
+              @onChange={{action (mut this.selectedPlugin)}}
+              @showValidationStatusIcons={{false}}
+              @showValidationStatusMessage={{false}}
+              as |field|
+            >
+              <field.select
+                class="modal-input"
+                @searchField="name"
+                @placeholder="Select plugin..."
+                @selected={{this.selectedPlugin}}
+                @onchange={{action (mut this.selectedPlugin)}}
+                @search={{perform this.search}}
+                as |plugin|
+              >
+                {{plugin.name}}
+              </field.select>
+            </form.field>
+          </fieldset>
+        </div>
+        <div class="cols">
+          <div class="col-left">
+            <div class="sample-json-container">
+              <span class="label">Sample JSON</span>
+              <pre class="sample-json"></pre>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="probe-output-container">
+              <span class="label">Output</span>
+              <div class="spinner hide">
+                <!--<%= image_pack_tag 'spinner.gif' %>-->
+              </div>
+              <div class="probe-output"></div>
+            </div>
+            <fieldset class="modal-field">
+              <legend class="tooltipped modal-field-legend"> Query</legend>
+              <form.field
+                @value={{this.query}}
+                @onChange={{action (mut this.query)}}
+                @showValidationStatusIcons={{false}}
+                @showValidationStatusMessage={{false}}
+                as |field|
+              >
+                <field.input class="modal-input" id="query" name="query" placeholder="Enter the query" />
+              </form.field>
+            </fieldset>
+            <div class="query-buttons">
+              <a class="clear-query btn action-btn">
+                Clear
+              </a>
+              <a class="btn action-btn" href="http://docs.srenity.io/docs/getting-started/#our-object-path" target="_blank">
+                Help
+              </a>
+              <a class="run-query btn action-btn">
+                Run Query
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </TravisForm>
+    <div class="modal-footer">
+      <a class="btn btn-link" id="sandbox-cancel" {{on 'click' (fn @onClose)}}>
+        Cancel
+      </a>
+      <a class="btn btn-primary" id="sandbox-save">
+        Save and Close
+      </a>
+    </div>
+  </div>
+</Modal>

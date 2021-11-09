@@ -83,6 +83,24 @@
         </div>
       </div>
     </div>
+    <div class="build-emails">
+      <div class="row">
+        <div class="name" data-test-email-settings-title>
+          Scan notifications
+        </div>
+        <div class="description" data-test-email-settings-description>
+          Get emails after completion of Insights scan
+        </div>
+        <div class="controls">
+          <TravisSwitch
+            @active={{this.buildEmails}}
+            @disabled={{this.toggleBuildEmails.isRunning}}
+            @onToggle={{perform this.toggleBuildEmails}}
+            data-test-email-settings-toggle="true"
+          />
+        </div>
+      </div>
+    </div>
     {{#if this.showResubscribeList}}
       <div
         class="unsubscribed-emails"
@@ -131,7 +149,11 @@
     {{/if}}
     <section class="insights-visibility-settings" data-test-insights-settings>
       <h3 data-test-insights-settings-title>
-        Insights Visibility Settings
+        Old Insights Visibility Settings
+        <span>
+          <EmberTooltip @text="Old Insights will be going away soon. We will notify you when that is planned." />
+          <SvgImage @name="icon-help" @class="icon-help" />
+        </span>
       </h3>
       <div class="insights-settings">
         <p class="description" data-test-insights-settings-description>
