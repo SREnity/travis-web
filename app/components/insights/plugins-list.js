@@ -8,10 +8,5 @@ export default Component.extend({
   account: null,
   subscription: null,
 
-  plugins: [
-    { name: 'crap', scanStatus: 'Success' },
-    { name: 'crap' },
-    { name: 'crap' },
-    { name: 'crap' },
-  ]
+  plugins: []
 });

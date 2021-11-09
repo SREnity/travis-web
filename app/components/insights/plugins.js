@@ -17,6 +17,6 @@ export default Component.extend({
 
   plugins: [],
   fetchPlugins: task(function* () {
-    this.set('plugins', yield this.store.findAll('insights-user-plugin') || []);
+    this.set('plugins', yield this.store.findAll('insights-plugin') || []);
   })
 });

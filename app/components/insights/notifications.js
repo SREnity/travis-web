@@ -15,6 +15,6 @@ export default Component.extend({
   lastScanEndedAt: 'e',
 
   fetchNotifications: task(function* () {
-    this.set('notifications', yield this.store.findAll('insights-user-notification') || []);
+    this.set('notifications', yield this.store.findAll('insights-notification') || []);
   })
 });
