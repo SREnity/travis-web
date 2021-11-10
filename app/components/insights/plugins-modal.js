@@ -1,5 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency';
 
 const NEW_INSIGHTS_PLUGIN_TYPES = [
   { id: 'aws', name: 'AWS Infrastructure' },
@@ -198,6 +200,9 @@ const NEW_INSIGHTS_URL_LABELS = {
 };
 
 export default Component.extend({
+  store: service(),
+  flashes: service(),
+
   pluginTypes: computed(() => NEW_INSIGHTS_PLUGIN_TYPES),
 
   selectedPlugin: NEW_INSIGHTS_PLUGIN_TYPES[0],
@@ -301,5 +306,23 @@ export default Component.extend({
   accountName: '',
   appKey: '',
   domain: '',
-  useForSubplugins: false
+  useForSubplugins: false,
+
+  isFormValid: computed('pluginName', function () {
+    return !!this.pluginName;
+  }),
+
+  save: task(function* () {
+    try {
+      yield this.store.createRecord('insights-plugin', {
+        name: this.pluginName,
+        publicKey: this.publicKey,
+        privateKey: this.privateKey,
+        pluginType: this.selectedPlugin.id
+      }).save();
+    } catch (error) {
+      this.onClose();
+      this.flashes.error('Unable to save plugin - please try again.');
+    }
+  }).drop()
 });

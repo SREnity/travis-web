@@ -1,25 +1,28 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { reads } from '@ember/object/computed';
+
+const PROBE_FILTER_LABELS = {
+  'active': 'Active Probes',
+  'all': 'All Probes',
+  'inactive': 'Inactive Probes'
+};
 
 export default Component.extend({
   store: service(),
+  accounts: service(),
 
-  init() {
-    this._super(...arguments);
+  owner: reads('accounts.user'),
 
-    this.fetchProbes.perform();
-  },
+  probeFilterLabel: 'Active Probes',
+  probeFilter: 'active',
 
   showProbesModal: false,
   probeType: 'normal',
 
   lastScanEndedAt: 'e',
 
-  probes: [],
-  fetchProbes: task(function* () {
-    this.set('probes', yield this.store.findAll('insights-test-template') || []);
-  }),
+  probes: reads('owner.insightsProbes'),
 
   actions: {
     openNormalProbeModal(dropdown) {
@@ -33,5 +36,15 @@ export default Component.extend({
       this.set('probeType', 'custom');
       this.set('showProbesModal', true);
     },
+
+    reloadProbes() {
+      this.probes.reload();
+    },
+
+    setFilter(filter, dropdown) {
+      dropdown.actions.close();
+      this.set('probeFilter', filter);
+      this.set('probeFilterLabel', PROBE_FILTER_LABELS[filter]);
+    }
   }
 });

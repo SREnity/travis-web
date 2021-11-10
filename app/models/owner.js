@@ -269,4 +269,31 @@ export default VcsEntity.extend({
     const result = yield this.api.get(url);
     return result ? result.executionspersender : [];
   }).keepLatest(),
+
+  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+    return yield this.store.paginated('insights-notification', {
+      limit,
+      page,
+      sort_by: sort,
+      filter,
+    }, { live: false });
+  }),
+
+  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+    return yield this.store.paginated('insights-plugin', {
+      limit,
+      page,
+      sort_by: sort,
+      filter,
+    }, { live: false });
+  }),
+
+  insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+    return yield this.store.paginated('insights-test-template', {
+      limit,
+      page,
+      sort_by: sort,
+      filter,
+    }, { live: false });
+  }),
 });

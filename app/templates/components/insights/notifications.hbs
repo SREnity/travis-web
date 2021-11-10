@@ -11,25 +11,25 @@
     <h6>Daily Notification List</h6>
     {{#basic-dropdown as |dd|}}
       {{#dd.trigger class='modal-field active-notification-filter browser-default notify-input-filter dropdown-trigger'}}
-        <span id="active-notifications-span">Active Notifications</span>
+        <span id="active-notifications-span">{{this.notificationFilterLabel}}</span>
       {{/dd.trigger}}
 
       {{#dd.content class='dropdown-content'}}
         <li>
-          <a id="AllNotifications" class='dropdown-list-elements'>All Notifications</a>
+          <a id="AllNotifications" {{on 'click' (action 'setFilter' 'all' dd)}} class='{{if (eq this.notificationFilter 'all') 'dropdown-selected'}} dropdown-list-elements'>All Notifications</a>
         </li>
         <li>
-          <a id="ActiveNotifications" class='dropdown-selected dropdown-list-elements'>Active Notifications</a>
+          <a id="ActiveNotifications" {{on 'click' (action 'setFilter' 'active' dd)}} class='{{if (eq this.notificationFilter 'active') 'dropdown-selected'}} dropdown-list-elements'>Active Notifications</a>
         </li>
         <li>
-          <a id="SnoozeNotifications" class="dropdown-list-elements">Snoozed Notifications</a>
+          <a id="SnoozeNotifications" {{on 'click' (action 'setFilter' 'snooze' dd)}} class='{{if (eq this.notificationFilter 'snooze') 'dropdown-selected'}} dropdown-list-elements'>Snoozed Notifications</a>
         </li>
       {{/dd.content}}
     {{/basic-dropdown}}
     <section class="notify-actions">
       <div class="notify-actions__items action-items">
         <div class="waves-effect waves-light action-btn notify-input-filter snooze-disabled snooze-button" id="notify-snooze-button">Snooze Notifications</div>
-        <div class="refresh-page-button waves-effect waves-light action-btn">
+        <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadNotifications')}}>
           <SvgImage @name="icon-reload" @class="ico-refresh-page" />
           Refresh the list
         </div>

@@ -1,20 +1,34 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { reads } from '@ember/object/computed';
+
+const NOTIFICATIONS_FILTER_LABELS = {
+  'active': 'Active Notifications',
+  'all': 'All Notifications',
+  'snooze': 'Snoozed Notifications'
+};
 
 export default Component.extend({
   store: service(),
+  accounts: service(),
 
-  init() {
-    this._super(...arguments);
+  owner: reads('accounts.user'),
 
-    this.fetchNotifications.perform();
-  },
-
-  notifications: [],
+  notificationFilterLabel: 'Active Notifications',
+  notificationFilter: 'active',
   lastScanEndedAt: 'e',
 
-  fetchNotifications: task(function* () {
-    this.set('notifications', yield this.store.findAll('insights-notification') || []);
-  })
+  notifications: reads('owner.insightsNotifications'),
+
+  actions: {
+    reloadNotifications() {
+      this.notifications.reload();
+    },
+
+    setFilter(filter, dropdown) {
+      dropdown.actions.close();
+      this.set('notificationFilter', filter);
+      this.set('notificationFilterLabel', NOTIFICATIONS_FILTER_LABELS[filter]);
+    }
+  }
 });

@@ -7,18 +7,18 @@
   <section class="user-plugins__content">
     {{#basic-dropdown as |dd|}}
       {{#dd.trigger class='modal-field active-probe-filter browser-default plugin-input-filter dropdown-trigger'}}
-        <span id="active-plugin-text">Active Plugins</span>
+        <span id="active-plugin-text">{{this.pluginsFilterLabel}}</span>
       {{/dd.trigger}}
 
       {{#dd.content class='dropdown-content'}}
         <li>
-          <a class="dropdown-list-elements" id="all-plugins">All Plugins</a>
+          <a {{on 'click' (action 'setFilter' 'all' dd)}} class='{{if (eq this.pluginsFilter 'all') 'dropdown-selected'}} dropdown-list-elements' id="all-plugins">All Plugins</a>
         </li>
         <li>
-          <a class="active-plugins dropdown-list-elements dropdown-selected">Active Plugins</a>
+          <a {{on 'click' (action 'setFilter' 'active' dd)}} class='{{if (eq this.pluginsFilter 'active') 'dropdown-selected'}} active-plugins dropdown-list-elements'>Active Plugins</a>
         </li>
         <li>
-          <a class="inactive-plugins dropdown-list-elements">Inactive Plugins</a>
+          <a {{on 'click' (action 'setFilter' 'inactive' dd)}} class='{{if (eq this.pluginsFilter 'inactive') 'dropdown-selected'}} inactive-plugins dropdown-list-elements'>Inactive Plugins</a>
         </li>
       {{/dd.content}}
     {{/basic-dropdown}}
@@ -27,7 +27,7 @@
         <a class="waves-effect waves-light action-btn" id="new-plugin-button" {{on 'click' (fn (mut this.showPluginsModal) true)}}>New Plugin</a>
         <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn disabled" id="deactivate-plugin-button">Toggle Plugin</a>
         <div class="action-item waves-effect waves-light action-item disabled action-btn" id="user-plugins-action-delete">Delete Plugin</div>
-        <div class="refresh-page-button waves-effect waves-sre-action action-btn">
+        <div class="refresh-page-button waves-effect waves-sre-action action-btn" {{on 'click' (action 'reloadPlugins')}}>
           <SvgImage @name="icon-reload" @class="ico-refresh-page" />
           Refresh the list
         </div>

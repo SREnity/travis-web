@@ -31,7 +31,6 @@
           <legend class="tooltipped modal-field-legend"> Product</legend>
           <form.field
             @value={{this.selectedPlugin}}
-            @required={{true}}
             @showValidationStatusIcons={{false}}
             @showValidationStatusMessage={{false}}
             as |field|
@@ -55,7 +54,6 @@
           <legend class="tooltipped modal-field-legend"> {{this.pluginPublicKeyLabel}}</legend>
           <form.field
             @value={{this.publicKey}}
-            @required={{true}}
             @onChange={{action (mut this.publicKey)}}
             @showValidationStatusIcons={{false}}
             @showValidationStatusMessage={{false}}
@@ -74,7 +72,6 @@
           <legend class="tooltipped modal-field-legend"> {{this.pluginPrivateKeyLabel}}</legend>
           <form.field
             @value={{this.privateKey}}
-            @required={{true}}
             @onChange={{action (mut this.privateKey)}}
             @showValidationStatusIcons={{false}}
             @showValidationStatusMessage={{false}}
@@ -191,7 +188,7 @@
       </div>
       <div class="modal-footer" id="myModelFooter">
         <a class="modal-close waves-effect waves-light btn btn-link" {{on 'click' (fn @onClose)}}>Cancel</a>
-        <button class="new-plugin-save modal-save waves-effect waves-sre-contain btn btn-primary" id="save-plugin" type="submit"> Save</button>
+        <button class="new-plugin-save modal-save waves-effect waves-sre-contain btn btn-primary form-submit {{if this.isFormValid '' 'disabled'}}" id="save-plugin" onclick={{form.submit}}> Save</button>
       </div>
     </TravisForm>
   </div>
