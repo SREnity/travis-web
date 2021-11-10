@@ -1,9 +1,29 @@
+<section class="user-plugins-actions">
+  <div class="user-plugins-actions__items action-items">
+    <a class="waves-effect waves-light action-btn" id="new-plugin-button" {{on 'click' (fn (mut this.showPluginsModal) true)}}>New Plugin</a>
+    <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn {{if this.allowToggle '' 'disabled'}}" id="deactivate-plugin-button">Toggle Plugin</a>
+    <div class="action-item waves-effect waves-light action-item action-btn {{if this.allowToggle '' 'disabled'}}" id="user-plugins-action-delete">Delete Plugin</div>
+    <div class="refresh-page-button waves-effect waves-sre-action action-btn" {{on 'click' (action 'reloadPlugins')}}>
+      <SvgImage @name="icon-reload" @class="ico-refresh-page" />
+      Refresh the list
+    </div>
+  </div>
+  <div class="user-plugins-actions__search">
+    <div class="notify-input-search input-search">
+      <SvgImage @name="icon-insights-search" @class="input-search-icon" />
+      <Input
+        class="notify-input-search__input"
+        placeholder="Search Plugin, Product, Category"
+      />
+    </div>
+  </div>
+</section>
 <table class="responsive-table table-default plugins-table" id="plugins_table">
   <thead>
     <tr>
       <th class="checks">
         <label>
-          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <input class="filled-in" id="checkbox-head" type="checkbox" checked={{this.isAllSelected}} onChange={{action "toggleAll"}} />
           <span></span>
         </label>
       </th>
@@ -22,7 +42,13 @@
     <tr class="tableRow" id="plugin-{{plugin.id}}">
       <td>
         <label>
-          <input class="checkbox-table filled-in" id="{{plugin.id}}" type="checkbox" />
+          <input
+            class="checkbox-table filled-in"
+            id="{{plugin.id}}"
+            type="checkbox"
+            checked={{contains plugin.id this.selectedPluginIds}}
+            onChange={{action "togglePlugin" plugin.id}}
+          />
           <span></span>
         </label>
       </td>
@@ -62,4 +88,8 @@
   @queryParam="page"
   @inner={{4}}
   @outer={{0}}
+/>
+<Insights::PluginsModal
+  @isOpen={{this.showPluginsModal}}
+  @onClose={{fn (mut this.showPluginsModal) false}}  
 />

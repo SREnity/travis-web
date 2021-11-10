@@ -1,9 +1,27 @@
+<section class="notify-actions">
+  <div class="notify-actions__items action-items">
+    <div class="waves-effect waves-light action-btn notify-input-filter {{if this.allowToggle '' 'snooze-disabled'}} snooze-button" id="notify-snooze-button">Snooze Notifications</div>
+    <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadNotifications')}}>
+      <SvgImage @name="icon-reload" @class="ico-refresh-page" />
+      Refresh the list
+    </div>
+  </div>
+  <div class="notify-actions__search">
+    <div class="notify-input-search input-search">
+      <SvgImage @name="icon-insights-search" @class="input-search-icon" />
+      <Input
+        class="notify-input-search__input"
+        placeholder="Search Type, Plugin, Product, Category, Message"
+      />
+    </div>
+  </div>
+</section>
 <table class="responsive-table table-default notification-table" id="user_notifications_table">
   <thead id="table-head">
     <tr>
       <th>
         <label>
-          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <input class="filled-in" id="checkbox-head" type="checkbox" checked={{this.isAllSelected}} onChange={{action "toggleAll"}} />
           <span></span>
         </label>
       </th>
@@ -22,7 +40,13 @@
       <tr class="tableRow" id="notification-{{notification.id}}">
         <td>
           <label>
-            <input class="checkbox-table filled-in" id="{{notification.id}}" type="checkbox" />
+            <input
+              class="checkbox-table filled-in"
+              id="{{notification.id}}"
+              type="checkbox"
+              checked={{contains notification.id this.selectedNotificationIds}}
+              onChange={{action "toggleNotification" notification.id}}
+            />
             <span></span>
           </label>
         </td>
@@ -45,7 +69,7 @@
           {{notification.message}}
         </td>
         <td>
-          <a class="detailsLink modal-trigger" id="{{notification.id}}">Learn More</a>
+          <a class="detailsLink modal-trigger" id="{{notification.id}}" {{on 'click' (action 'openModal' notification)}}>Learn More</a>
         </td>
         <td>
           {{notification.activeStatus}}
@@ -61,4 +85,9 @@
   @queryParam="page"
   @inner={{4}}
   @outer={{0}}
+/>
+<Insights::NotificationModal
+  @isOpen={{this.showNotificationModal}}
+  @onClose={{fn (mut this.showNotificationModal) false}}  
+  @notification={{this.selectedNotification}}
 />

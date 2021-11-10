@@ -21,10 +21,6 @@ export default Component.extend({
   notifications: reads('owner.insightsNotifications'),
 
   actions: {
-    reloadNotifications() {
-      this.notifications.reload();
-    },
-
     setFilter(filter, dropdown) {
       dropdown.actions.close();
       this.set('notificationFilter', filter);

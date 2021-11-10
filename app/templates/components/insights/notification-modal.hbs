@@ -7,7 +7,7 @@
       <h6>Notifications Details</h6>
       <fieldset class="modal-field notification-modal-field">
         <legend class='tooltipped modal-field-legend'> Plugin Source</legend>
-        <p class="modal-input modal-notification-input" id="notificationPluginSource" type="text"></p>
+        <p class="modal-input modal-notification-input" id="notificationPluginSource" type="text">{{@notification.pluginType}}</p>
       </fieldset>
       <fieldset class="modal-field notification-modal-field">
         <legend class='tooltipped modal-field-legend'> Alert Status</legend>
@@ -15,15 +15,15 @@
       </fieldset>
       <fieldset class="modal-field notification-modal-field">
         <legend class='tooltipped modal-field-legend'> Notification Message</legend>
-        <p class="modal-input modal-notification-input" id="notificationMessage" type="text"></p>
+        <p class="modal-input modal-notification-input" id="notificationMessage" type="text">{{@notification.message}}</p>
       </fieldset>
       <fieldset class="modal-field notification-modal-field">
         <legend class='tooltipped modal-field-legend'> Instance Name</legend>
-        <p class="modal-input modal-notification-input" id="notificationInstanceName" type="text"></p>
+        <p class="modal-input modal-notification-input" id="notificationInstanceName" type="text">{{@notification.affectedItems}}</p>
       </fieldset>
       <fieldset class="modal-field notification-modal-field">
         <legend class="modal-field-legend"> Description</legend>
-        <p class="modal-input modal-notification-input" id="notificationDescription" type="text"></p>
+        <p class="modal-input modal-notification-input" id="notificationDescription" type="text">{{@notification.description}}</p>
       </fieldset>
       <fieldset class="modal-field notification-modal-field">
         <llegend class="modal-field-legend"> Further Reading</llegend>

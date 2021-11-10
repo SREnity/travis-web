@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { reads } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 
 const NEW_INSIGHTS_PLUGIN_TYPES = [
@@ -202,6 +203,7 @@ const NEW_INSIGHTS_URL_LABELS = {
 export default Component.extend({
   store: service(),
   flashes: service(),
+  api: service(),
 
   pluginTypes: computed(() => NEW_INSIGHTS_PLUGIN_TYPES),
 
@@ -296,7 +298,7 @@ export default Component.extend({
     return NEW_INSIGHTS_PUBLIC_KEY_PLUGINS.includes(this.selectedPlugin.id);
   }),
 
-  isTestRunning: false,
+  isTestRunning: reads('testConnection.isRunning'),
   isTestCompleted: false,
   isTestPassed: false,
 
@@ -324,5 +326,37 @@ export default Component.extend({
       this.onClose();
       this.flashes.error('Unable to save plugin - please try again.');
     }
-  }).drop()
+  }).drop(),
+
+  testConnection: task(function* () {
+    const keyHash = '';
+    this.set('isTestCompleted', false);
+    this.set('isTestPassed', false);
+    this.set('testFailMessage', '');
+
+    try {
+      const res = yield this.api.post(
+        '/insights_plugins/authenticate_key',
+        {
+          plugin_type: this.selectedPlugin.id,
+          'public_id': this.publicKey,
+          'private_key': this.privateKey,
+          'app_key': this.appKey,
+          'domain': this.domain,
+          'key_hash': keyHash
+        }
+      );
+      this.set('isTestCompleted', true);
+      if (res.success) {
+        this.set('isTestPassed', true);
+      } else {
+        this.set('isTestPassed', false);
+        this.set('testFailMessage', res.error_msg);
+      }
+    } catch (e) {
+      this.set('isTestCompleted', true);
+      this.set('isTestPassed', false);
+      this.set('testFailMessage', e);
+    }
+  }),
 });

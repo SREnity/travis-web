@@ -26,24 +26,6 @@
         </li>
       {{/dd.content}}
     {{/basic-dropdown}}
-    <section class="notify-actions">
-      <div class="notify-actions__items action-items">
-        <div class="waves-effect waves-light action-btn notify-input-filter snooze-disabled snooze-button" id="notify-snooze-button">Snooze Notifications</div>
-        <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadNotifications')}}>
-          <SvgImage @name="icon-reload" @class="ico-refresh-page" />
-          Refresh the list
-        </div>
-      </div>
-      <div class="notify-actions__search">
-        <div class="notify-input-search input-search">
-          <SvgImage @name="icon-insights-search" @class="input-search-icon" />
-          <Input
-            class="notify-input-search__input"
-            placeholder="Search Type, Plugin, Product, Category, Message"
-          />
-        </div>
-      </div>
-    </section>
     <Insights::NotificationsList
       @notifications={{this.notifications}}
     />

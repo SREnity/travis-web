@@ -22,10 +22,6 @@ export default Component.extend({
   plugins: reads('owner.insightsPlugins'),
 
   actions: {
-    reloadPlugins() {
-      this.plugins.reload();
-    },
-
     setFilter(filter, dropdown) {
       dropdown.actions.close();
       this.set('pluginsFilter', filter);

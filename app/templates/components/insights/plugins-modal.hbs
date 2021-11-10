@@ -157,7 +157,7 @@
         </div>
         {{/if}}
         <div class="test-connect" id="new-plugin-authenticate">
-          <a class="a test-connection" id="test-connection">Test connection</a>
+          <a class="a test-connection" id="test-connection" {{on 'click' (perform this.testConnection)}}>Test connection</a>
           {{#if this.isTestRunning}}
             <div class="container" id="test-load-icon">
               <div class="dot-container">
@@ -178,7 +178,7 @@
             <div class="test-connect" id="test-fail">
               <div class="test-connection-fail-icon"></div>
               <div class="test-connection-fail-message">Connection Failed.</div>
-              <div class="test-connection-fail-body" id="test-fail-message"></div>
+              <div class="test-connection-fail-body" id="test-fail-message">{{this.testFailMessage}}</div>
             </div>
           {{/if}}
         {{/if}}

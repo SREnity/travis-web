@@ -17,30 +17,11 @@ export default Component.extend({
   probeFilterLabel: 'Active Probes',
   probeFilter: 'active',
 
-  showProbesModal: false,
-  probeType: 'normal',
-
   lastScanEndedAt: 'e',
 
   probes: reads('owner.insightsProbes'),
 
   actions: {
-    openNormalProbeModal(dropdown) {
-      dropdown.actions.close();
-      this.set('probeType', 'normal');
-      this.set('showProbesModal', true);
-    },
-
-    openCustomProbeModal(dropdown) {
-      dropdown.actions.close();
-      this.set('probeType', 'custom');
-      this.set('showProbesModal', true);
-    },
-
-    reloadProbes() {
-      this.probes.reload();
-    },
-
     setFilter(filter, dropdown) {
       dropdown.actions.close();
       this.set('probeFilter', filter);

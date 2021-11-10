@@ -22,32 +22,9 @@
         </li>
       {{/dd.content}}
     {{/basic-dropdown}}
-    <section class="user-plugins-actions">
-      <div class="user-plugins-actions__items action-items">
-        <a class="waves-effect waves-light action-btn" id="new-plugin-button" {{on 'click' (fn (mut this.showPluginsModal) true)}}>New Plugin</a>
-        <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn disabled" id="deactivate-plugin-button">Toggle Plugin</a>
-        <div class="action-item waves-effect waves-light action-item disabled action-btn" id="user-plugins-action-delete">Delete Plugin</div>
-        <div class="refresh-page-button waves-effect waves-sre-action action-btn" {{on 'click' (action 'reloadPlugins')}}>
-          <SvgImage @name="icon-reload" @class="ico-refresh-page" />
-          Refresh the list
-        </div>
-      </div>
-      <div class="user-plugins-actions__search">
-        <div class="notify-input-search input-search">
-          <SvgImage @name="icon-insights-search" @class="input-search-icon" />
-          <Input
-            class="notify-input-search__input"
-            placeholder="Search Plugin, Product, Category"
-          />
-        </div>
-      </div>
-    </section>
     <Insights::PluginsList
       @plugins={{this.plugins}}
     />
   </section>
 </div>
-<Insights::PluginsModal
-  @isOpen={{this.showPluginsModal}}
-  @onClose={{fn (mut this.showPluginsModal) false}}  
-/>
+
