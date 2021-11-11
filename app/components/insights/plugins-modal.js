@@ -335,17 +335,16 @@ export default Component.extend({
     this.set('testFailMessage', '');
 
     try {
-      const res = yield this.api.post(
-        '/insights_plugins/authenticate_key',
-        {
+      const res = yield this.api.patch('/insights_plugins/authenticate_key',  {
+        data: {
           plugin_type: this.selectedPlugin.id,
-          'public_id': this.publicKey,
-          'private_key': this.privateKey,
-          'app_key': this.appKey,
-          'domain': this.domain,
-          'key_hash': keyHash
+          public_id: this.publicKey,
+          private_key: this.privateKey,
+          app_key: this.appKey,
+          domain: this.domain,
+          key_hash: keyHash
         }
-      );
+      });
       this.set('isTestCompleted', true);
       if (res.success) {
         this.set('isTestPassed', true);

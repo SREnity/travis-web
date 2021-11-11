@@ -65,7 +65,7 @@
         {{plugin.pluginCategory}}
       </td>
       <td>
-        {{plugin.lastScanEndedAt}}
+        {{moment-format plugin.lastScanEndedAt 'YYYY-MM-DD HH:mm:ss'}}
       </td>
       <td>
         <div class="icon-scan-status icon-scan-{{plugin.scanStatus}}"></div>

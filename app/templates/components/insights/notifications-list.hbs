@@ -1,6 +1,6 @@
 <section class="notify-actions">
   <div class="notify-actions__items action-items">
-    <div class="waves-effect waves-light action-btn notify-input-filter {{if this.allowToggle '' 'snooze-disabled'}} snooze-button" id="notify-snooze-button">Snooze Notifications</div>
+    <div class="waves-effect waves-light action-btn notify-input-filter {{if this.allowToggle '' 'snooze-disabled'}} snooze-button" {{on 'click' (perform this.toggleNoifications)}} id="notify-snooze-button">Snooze Notifications</div>
     <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadNotifications')}}>
       <SvgImage @name="icon-reload" @class="ico-refresh-page" />
       Refresh the list

@@ -7,8 +7,12 @@ export default Model.extend({
   pluginType: attr('string'),
   pluginCategory: attr('string'),
   message: attr('string'),
-  activeStatus: attr('string'),
+  active: attr('boolean'),
   weight: attr('number'),
+
+  activeStatus: computed('active', function () {
+    return this.active ? 'Active' : 'Snoozed';
+  }),
 
   weightClass: computed('weight', function () {
     if (this.weight < 1.75) {
