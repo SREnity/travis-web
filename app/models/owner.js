@@ -270,11 +270,12 @@ export default VcsEntity.extend({
     return result ? result.executionspersender : [];
   }).keepLatest(),
 
-  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', customOptions = { active: false } }) {
     return yield this.store.paginated('insights-notification', {
       limit,
       page,
       sort_by: sort,
+      active: customOptions.active,
       filter,
     }, { live: false });
   }),

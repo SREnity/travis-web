@@ -25,6 +25,13 @@ export default Component.extend({
       dropdown.actions.close();
       this.set('notificationFilter', filter);
       this.set('notificationFilterLabel', NOTIFICATIONS_FILTER_LABELS[filter]);
+      if (filter === 'active') {
+        this.notifications.applyCustomOptions({ active: false });
+      } else if (filter === 'snooze') {
+        this.notifications.applyCustomOptions({ active: true });
+      } else {
+        this.notifications.applyCustomOptions({});
+      }
     }
   }
 });
