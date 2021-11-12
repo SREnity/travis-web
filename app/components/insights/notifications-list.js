@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { map, gt } from '@ember/object/computed';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
+import config from 'travis/config/environment';
 
 export default Component.extend({
   store: service(),
@@ -17,6 +18,7 @@ export default Component.extend({
 
   sortField: 'weight',
   sortDirection: 'desc',
+  query: '',
 
   toggleNoifications: task(function* () {
     const self = this;
@@ -35,6 +37,11 @@ export default Component.extend({
       this.flashes.error('There was an error toggling notifications. Please try again.');
     }
   }),
+
+  search: task(function* () {
+    yield timeout(config.intervals.repositoryFilteringDebounceRate);
+    yield this.notifications.applyFilter(this.query);
+  }).restartable(),
 
   actions: {
     openModal(notification) {

@@ -1,6 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { map, equal, gt } from '@ember/object/computed';
+import { task, timeout } from 'ember-concurrency';
+import config from 'travis/config/environment';
 
 export default Component.extend({
   flashes: service(),
@@ -10,12 +12,18 @@ export default Component.extend({
 
   sortField: 'plugin_type',
   sortDirection: 'asc',
+  query: '',
 
   allowEdit: equal('selectedProbeIds.length', 1),
   allowToggle: gt('selectedProbeIds.length', 0),
   isAllSelected: false,
   selectedProbeIds: [],
   selectableProbeIds: map('probes', (probe) => probe.id),
+
+  search: task(function* () {
+    yield timeout(config.intervals.repositoryFilteringDebounceRate);
+    yield this.probes.applyFilter(this.query);
+  }).restartable(),
 
   actions: {
     openNormalProbeModal(dropdown) {

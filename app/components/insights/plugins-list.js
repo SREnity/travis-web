@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { map, gt } from '@ember/object/computed';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
+import config from 'travis/config/environment';
 
 export default Component.extend({
   flashes: service(),
@@ -12,6 +13,7 @@ export default Component.extend({
 
   sortField: 'name',
   sortDirection: 'asc',
+  query: '',
 
   isAllSelected: false,
   allowToggle: gt('selectedPluginIds.length', 0),
@@ -78,4 +80,9 @@ export default Component.extend({
 
     yield this.api.delete('/insights_plugins/delete_many', { data: data });
   }).drop(),
+
+  search: task(function* () {
+    yield timeout(config.intervals.repositoryFilteringDebounceRate);
+    yield this.probes.applyFilter(this.query);
+  }).restartable(),
 });

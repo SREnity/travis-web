@@ -10,8 +10,10 @@
     <div class="notify-input-search input-search">
       <SvgImage @name="icon-insights-search" @class="input-search-icon" />
       <Input
+        @value={{this.query}}
         class="notify-input-search__input"
         placeholder="Search Type, Plugin, Product, Category, Message"
+        onKeyUp={{perform this.search}}
       />
     </div>
   </div>
