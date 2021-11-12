@@ -270,34 +270,45 @@ export default VcsEntity.extend({
     return result ? result.executionspersender : [];
   }).keepLatest(),
 
-  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'weight', sortDirection = 'desc', customOptions = { active: false } }) {
+  insightsNotifications: dynamicQuery(function* ({
+    page = 1,
+    filter = '',
+    customOptions = {},
+  }) {
+    customOptions = Object.assign({ active: false, sort: 'weight', sortDirection: 'desc' }, customOptions);
+
     return yield this.store.paginated('insights-notification', {
       limit,
       page,
-      sort_by: sort,
-      sort_direction: sortDirection,
+      sort_by: customOptions.sort,
+      sort_direction: customOptions.sortDirection,
       active: customOptions.active,
       filter,
     }, { live: false });
   }),
 
-  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc', customOptions = { active: true } }) {
+  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', customOptions = {} }) {
+    customOptions = Object.assign({ active: true, sort: 'name', sortDirection: 'asc' }, customOptions);
+
     return yield this.store.paginated('insights-plugin', {
       limit,
       page,
-      sort_by: sort,
-      sort_direction: sortDirection,
+      sort_by: customOptions.sort,
+      sort_direction: customOptions.sortDirection,
       active: customOptions.active,
       filter,
     }, { live: false });
   }),
 
-  insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc' }) {
+  insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', customOptions = {} }) {
+    customOptions = Object.assign({ active: true, sort: 'plugin_type', sortDirection: 'asc' }, customOptions);
+
     return yield this.store.paginated('insights-test-template', {
       limit,
       page,
-      sort_by: sort,
-      sort_direction: sortDirection,
+      sort_by: customOptions.sort,
+      sort_direction: customOptions.sortDirection,
+      active: customOptions.active,
       filter,
     }, { live: false });
   }),

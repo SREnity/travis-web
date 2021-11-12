@@ -30,7 +30,7 @@ export default Component.extend({
       } else if (filter === 'snooze') {
         this.notifications.applyCustomOptions({ active: true });
       } else {
-        this.notifications.applyCustomOptions({});
+        this.notifications.applyCustomOptions({ active: undefined });
       }
     }
   }

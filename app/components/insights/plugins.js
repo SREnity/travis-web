@@ -26,6 +26,13 @@ export default Component.extend({
       dropdown.actions.close();
       this.set('pluginsFilter', filter);
       this.set('pluginsFilterLabel', PLUGINS_FILTER_LABELS[filter]);
+      if (filter === 'active') {
+        this.plugins.applyCustomOptions({ active: true });
+      } else if (filter === 'inactive') {
+        this.plugins.applyCustomOptions({ active: false });
+      } else {
+        this.plugins.applyCustomOptions({ active: undefined });
+      }
     }
   }
 });

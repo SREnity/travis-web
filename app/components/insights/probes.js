@@ -26,6 +26,13 @@ export default Component.extend({
       dropdown.actions.close();
       this.set('probeFilter', filter);
       this.set('probeFilterLabel', PROBE_FILTER_LABELS[filter]);
+      if (filter === 'active') {
+        this.probes.applyCustomOptions({ active: true });
+      } else if (filter === 'inactive') {
+        this.probes.applyCustomOptions({ active: false });
+      } else {
+        this.probes.applyCustomOptions({ active: undefined });
+      }
     }
   }
 });

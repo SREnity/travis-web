@@ -25,11 +25,11 @@
           <span></span>
         </label>
       </th>
-      <th class="sort-btn">Alert</th>
-      <th class="sort-btn">Type</th>
-      <th class="sort-btn">Plugin</th>
-      <th class="sort-btn">Product</th>
-      <th class="sort-btn">Category</th>
+      <th class="sort-btn {{if (eq 'weight' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'weight')}}>Alert</th>
+      <th class="sort-btn {{if (eq 'type' this.sortField) this.sortDirection ''}}"  {{on 'click' (action 'applySort' 'type')}}>Type</th>
+      <th class="sort-btn {{if (eq 'user_plugins.name' this.sortField) this.sortDirection ''}}"  {{on 'click' (action 'applySort' 'user_plugins.name')}}>Plugin</th>
+      <th class="sort-btn {{if (eq 'user_plugins.plugin_type' this.sortField) this.sortDirection ''}}"  {{on 'click' (action 'applySort' 'user_plugins.plugin_type')}}>Product</th>
+      <th class="sort-btn {{if (eq 'user_plugins.plugin_category' this.sortField) this.sortDirection ''}}"  {{on 'click' (action 'applySort' 'user_plugins.plugin_category')}}>Category</th>
       <th>Message</th>
       <th>Details</th>
       <th class="notification-status">Status</th>

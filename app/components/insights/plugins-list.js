@@ -10,6 +10,9 @@ export default Component.extend({
   showPluginsModal: false,
   showRemovePluginModal: false,
 
+  sortField: 'name',
+  sortDirection: 'asc',
+
   isAllSelected: false,
   allowToggle: gt('selectedPluginIds.length', 0),
   selectedPluginIds: [],
@@ -44,14 +47,28 @@ export default Component.extend({
         selectedPluginIds.addObjects(selectablePluginIds.toArray());
       }
     },
+
+    applySort(field) {
+      if (field === this.sortField) {
+        this.set('sortDirection', this.sortDirection === 'desc' ? 'asc' : 'desc');
+      }
+      this.set('sortField', field);
+
+      this.plugins.applyCustomOptions({ sort: field, sortDirection: this.sortDirection });
+    }
   },
 
   toggle: task(function* () {
     let data = {
       ids: this.selectedPluginIds,
     };
+    const self = this;
 
-    yield this.api.patch('/insights_plugins/toggle_active', { data: data });
+    yield this.api.patch('/insights_plugins/toggle_active', { data: data }).then(() => {
+      self.plugins.reload();
+      self.set('selectedPluginIds', []);
+      self.set('isAllSelected', false);
+    });
   }).drop(),
 
   deletePlugins: task(function* () {

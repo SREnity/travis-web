@@ -8,6 +8,9 @@ export default Component.extend({
   showProbesModal: false,
   probeType: 'normal',
 
+  sortField: 'plugin_type',
+  sortDirection: 'asc',
+
   allowEdit: equal('selectedProbeIds.length', 1),
   allowToggle: gt('selectedProbeIds.length', 0),
   isAllSelected: false,
@@ -52,6 +55,15 @@ export default Component.extend({
         this.set('isAllSelected', true);
         selectedProbeIds.addObjects(selectableProbeIds.toArray());
       }
+    },
+
+    applySort(field) {
+      if (field === this.sortField) {
+        this.set('sortDirection', this.sortDirection === 'desc' ? 'asc' : 'desc');
+      }
+      this.set('sortField', field);
+
+      this.probes.applyCustomOptions({ sort: field, sortDirection: this.sortDirection });
     }
   }
 });

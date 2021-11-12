@@ -15,6 +15,9 @@ export default Component.extend({
   selectedNotificationIds: [],
   selectableNotificationIds: map('notifications', (notification) => notification.id),
 
+  sortField: 'weight',
+  sortDirection: 'desc',
+
   toggleNoifications: task(function* () {
     const self = this;
 
@@ -64,6 +67,15 @@ export default Component.extend({
         this.set('isAllSelected', true);
         selectedNotificationIds.addObjects(selectableNotificationIds.toArray());
       }
+    },
+
+    applySort(field) {
+      if (field === this.sortField) {
+        this.set('sortDirection', this.sortDirection === 'desc' ? 'asc' : 'desc');
+      }
+      this.set('sortField', field);
+
+      this.notifications.applyCustomOptions({ sort: field, sortDirection: this.sortDirection });
     }
   }
 });

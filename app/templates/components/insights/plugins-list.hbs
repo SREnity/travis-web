@@ -27,11 +27,11 @@
           <span></span>
         </label>
       </th>
-      <th class="sort-btn" scope="col"> Plugin</th>
+      <th class="sort-btn {{if (eq 'name' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'name')}} scope="col"> Plugin</th>
       <th class="key-id" scope="col"> Key ID</th>
-      <th class="sort-btn" scope="col"> Product</th>
-      <th class="sort-btn" scope="col"> Category</th>
-      <th class="last-scan sort-btn" scope="col"> Last Scan</th>
+      <th class="sort-btn {{if (eq 'plugin_type' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'plugin_type')}} scope="col"> Product</th>
+      <th class="sort-btn {{if (eq 'plugin_category' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'plugin_category')}} scope="col"> Category</th>
+      <th class="last-scan sort-btn {{if (eq 'last_scan_end' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'last_scan_end')}} scope="col"> Last Scan</th>
       <th class="scan-status" scope="col"> Scan Status</th>
       <th class="scan-details" scope="col">Scan Details</th>
       <th class="plugin-status" scope="col"> Plugin Status</th>

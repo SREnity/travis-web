@@ -75,7 +75,6 @@ const DynamicQuery = ArrayProxy.extend(Evented, {
 
   page: 1,
   filterTerm: '',
-  sort: '',
   customOptions: {},
 
   appendResults: false,
@@ -136,13 +135,6 @@ const DynamicQuery = ArrayProxy.extend(Evented, {
     return this.reload({ filterTerm, page, customOptions });
   },
 
-  applySort(sort) {
-    const page = 1;
-    const customOptions = this.customOptions;
-    const filterTerm = this.filterTerm;
-    return this.reload({ filterTerm, page, customOptions, sort });
-  },
-
   load(options) {
     return this.promise || this.reload(options);
   },
@@ -176,7 +168,7 @@ const DynamicQuery = ArrayProxy.extend(Evented, {
     return this.promise;
   },
 
-  applyOptions({ page, filterTerm, sort, customOptions } = {}) {
+  applyOptions({ page, filterTerm, customOptions } = {}) {
     if (page !== undefined && page !== this.currentPage) {
       this.set('page', page);
       this.trigger(EVENTS.PAGE_CHANGED, page);
@@ -187,12 +179,8 @@ const DynamicQuery = ArrayProxy.extend(Evented, {
       this.trigger(EVENTS.FILTER_CHANGED, filterTerm);
     }
 
-    if (sort !== undefined && sort !== this.sort) {
-      this.set('sort', sort);
-    }
-
     if (customOptions !== undefined && customOptions !== this.customOptions) {
-      this.set('customOptions', customOptions);
+      this.set('customOptions', Object.assign(this.customOptions, customOptions));
     }
   },
 

@@ -40,9 +40,9 @@
           <span></span>
         </label>
       </th>
-      <th class="sort-btn" scope="col"> Type</th>
-      <th class="sort-btn" scope="col"> Product</th>
-      <th class="sort-btn" scope="col"> Category</th>
+      <th class="sort-btn {{if (eq 'type' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'type')}} scope="col"> Type</th>
+      <th class="sort-btn {{if (eq 'plugin_type' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'plugin_type')}} scope="col"> Product</th>
+      <th class="sort-btn {{if (eq 'plugin_category' this.sortField) this.sortDirection ''}}" {{on 'click' (action 'applySort' 'plugin_category')}} scope="col"> Category</th>
       <th scope="col"> Message</th>
       <th scope="col"> Tags</th>
       <th class="template-status" scope="col"> Status</th>
