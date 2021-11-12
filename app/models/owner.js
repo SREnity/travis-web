@@ -281,12 +281,13 @@ export default VcsEntity.extend({
     }, { live: false });
   }),
 
-  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc' }) {
+  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc', customOptions = { active: true } }) {
     return yield this.store.paginated('insights-plugin', {
       limit,
       page,
       sort_by: sort,
       sort_direction: sortDirection,
+      active: customOptions.active,
       filter,
     }, { live: false });
   }),
