@@ -8,6 +8,7 @@ export default Component.extend({
   api: service(),
 
   showPluginsModal: false,
+  showRemovePluginModal: false,
 
   isAllSelected: false,
   allowToggle: gt('selectedPluginIds.length', 0),
@@ -17,6 +18,8 @@ export default Component.extend({
   actions: {
     reloadPlugins() {
       this.plugins.reload();
+      this.set('selectedPluginIds', []);
+      this.set('isAllSelected', false);
     },
 
     togglePlugin(pluginId) {
