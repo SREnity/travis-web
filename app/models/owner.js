@@ -270,30 +270,33 @@ export default VcsEntity.extend({
     return result ? result.executionspersender : [];
   }).keepLatest(),
 
-  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', customOptions = { active: false } }) {
+  insightsNotifications: dynamicQuery(function* ({ page = 1, filter = '', sort = 'weight', sortDirection = 'desc', customOptions = { active: false } }) {
     return yield this.store.paginated('insights-notification', {
       limit,
       page,
       sort_by: sort,
+      sort_direction: sortDirection,
       active: customOptions.active,
       filter,
     }, { live: false });
   }),
 
-  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+  insightsPlugins: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc' }) {
     return yield this.store.paginated('insights-plugin', {
       limit,
       page,
       sort_by: sort,
+      sort_direction: sortDirection,
       filter,
     }, { live: false });
   }),
 
-  insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name' }) {
+  insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', sort = 'name', sortDirection = 'asc' }) {
     return yield this.store.paginated('insights-test-template', {
       limit,
       page,
       sort_by: sort,
+      sort_direction: sortDirection,
       filter,
     }, { live: false });
   }),

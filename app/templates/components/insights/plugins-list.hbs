@@ -1,8 +1,8 @@
 <section class="user-plugins-actions">
   <div class="user-plugins-actions__items action-items">
     <a class="waves-effect waves-light action-btn" id="new-plugin-button" {{on 'click' (fn (mut this.showPluginsModal) true)}}>New Plugin</a>
-    <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn {{if this.allowToggle '' 'disabled'}}" id="deactivate-plugin-button">Toggle Plugin</a>
-    <div class="action-item waves-effect waves-light action-item action-btn {{if this.allowToggle '' 'disabled'}}" id="user-plugins-action-delete">Delete Plugin</div>
+    <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn {{if this.allowToggle '' 'disabled'}}" id="deactivate-plugin-button" {{on 'click' (perform this.toggle)}}>Toggle Plugin</a>
+    <div class="action-item waves-effect waves-light action-item action-btn {{if this.allowToggle '' 'disabled'}}" id="user-plugins-action-delete" {{on 'click' (perform this.deletePlugins)}}>Delete Plugin</div>
     <div class="refresh-page-button waves-effect waves-sre-action action-btn" {{on 'click' (action 'reloadPlugins')}}>
       <SvgImage @name="icon-reload" @class="ico-refresh-page" />
       Refresh the list
@@ -91,5 +91,5 @@
 />
 <Insights::PluginsModal
   @isOpen={{this.showPluginsModal}}
-  @onClose={{fn (mut this.showPluginsModal) false}}  
+  @onClose={{fn (mut this.showPluginsModal) false}}
 />

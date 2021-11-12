@@ -303,7 +303,7 @@ export default Component.extend({
   isTestPassed: false,
 
   pluginName: '',
-  publicKey: '',
+  publicId: '',
   privateKey: '',
   accountName: '',
   appKey: '',
@@ -318,9 +318,13 @@ export default Component.extend({
     try {
       yield this.store.createRecord('insights-plugin', {
         name: this.pluginName,
-        publicKey: this.publicKey,
+        publicId: this.publicId,
         privateKey: this.privateKey,
-        pluginType: this.selectedPlugin.id
+        pluginType: this.selectedPlugin.id,
+        accountName: this.accountName,
+        appKey: this.appKey,
+        domain: this.domain,
+        subPlugin: this.useForSubplugins ? '1' : '0'
       }).save();
     } catch (error) {
       this.onClose();

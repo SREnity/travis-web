@@ -53,8 +53,8 @@
         <fieldset class="modal-field" id="user_plugin_public_id_form_group">
           <legend class="tooltipped modal-field-legend"> {{this.pluginPublicKeyLabel}}</legend>
           <form.field
-            @value={{this.publicKey}}
-            @onChange={{action (mut this.publicKey)}}
+            @value={{this.publicId}}
+            @onChange={{action (mut this.publicId)}}
             @showValidationStatusIcons={{false}}
             @showValidationStatusMessage={{false}}
             as |field|

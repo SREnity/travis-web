@@ -1,9 +1,11 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { map, gt } from '@ember/object/computed';
+import { task } from 'ember-concurrency';
 
 export default Component.extend({
   flashes: service(),
+  api: service(),
 
   showPluginsModal: false,
 
@@ -38,6 +40,22 @@ export default Component.extend({
         this.set('isAllSelected', true);
         selectedPluginIds.addObjects(selectablePluginIds.toArray());
       }
-    }
-  }
+    },
+  },
+
+  toggle: task(function* () {
+    let data = {
+      ids: this.selectedPluginIds,
+    };
+
+    yield this.api.patch('/insights_plugins/toggle_active', { data: data });
+  }).drop(),
+
+  deletePlugins: task(function* () {
+    let data = {
+      ids: this.selectedPluginIds,
+    };
+
+    yield this.api.delete('/insights_plugins/delete_many', { data: data });
+  }).drop(),
 });
