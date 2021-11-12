@@ -73,16 +73,8 @@ export default Component.extend({
     });
   }).drop(),
 
-  deletePlugins: task(function* () {
-    let data = {
-      ids: this.selectedPluginIds,
-    };
-
-    yield this.api.delete('/insights_plugins/delete_many', { data: data });
-  }).drop(),
-
   search: task(function* () {
     yield timeout(config.intervals.repositoryFilteringDebounceRate);
-    yield this.probes.applyFilter(this.query);
+    yield this.plugins.applyFilter(this.query);
   }).restartable(),
 });
