@@ -3,8 +3,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 
 export default Component.extend({
-  flashes: service(),
-  accounts: service(),
+  api: service(),
 
   account: null,
   subscription: null,
@@ -32,5 +31,5 @@ export default Component.extend({
       this.onClose();
       this.flashes.error('Probe Template save failed.');
     }
-  }).drop()
+  }).drop(),
 });

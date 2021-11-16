@@ -114,6 +114,8 @@ module.exports = function () {
   importNpmDependency(app, 'node_modules/ansiparse/lib/ansiparse.js', 'amd');
   importNpmDependency(app, 'node_modules/yamljs/index.js');
   importNpmDependency(app, 'node_modules/deep-freeze/index.js');
+  importNpmDependency(app, 'node_modules/crypto-js/index.js');
+  importNpmDependency(app, 'node_modules/jsencrypt/bin/jsencrypt.min.js');
 
   return app.toTree(emojiAssets);
 };

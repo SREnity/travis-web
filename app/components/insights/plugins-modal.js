@@ -4,6 +4,9 @@ import { inject as service } from '@ember/service';
 import { reads } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 
+import { default as JSEncrypt } from 'jsencrypt';
+import CryptoJS from 'crypto-js';
+
 const NEW_INSIGHTS_PLUGIN_TYPES = [
   { id: 'aws', name: 'AWS Infrastructure' },
   { id: 'sre', name: 'Travis Insights' },
@@ -205,6 +208,22 @@ export default Component.extend({
   flashes: service(),
   api: service(),
 
+  init() {
+    this._super(...arguments);
+
+    this.api.get('/insights_public_key').then((data) => {
+      this.set('encryptionKey', data['key_body']);
+      this.set('encryptionKeyHash', data['key_hash']);
+    });
+  },
+
+  encryptionKey: null,
+  encryptionKeyHash: null,
+
+  kubeKeyGenerated: false,
+  kubeGeneratedPublicId: null,
+  kubeGeneratedPrivateKey: null,
+
   pluginTypes: computed(() => NEW_INSIGHTS_PLUGIN_TYPES),
 
   selectedPlugin: NEW_INSIGHTS_PLUGIN_TYPES[0],
@@ -326,6 +345,8 @@ export default Component.extend({
         domain: this.domain,
         subPlugin: this.useForSubplugins ? '1' : '0'
       }).save();
+      this.reloadPlugins();
+      this.onClose();
     } catch (error) {
       this.onClose();
       this.flashes.error('Unable to save plugin - please try again.');
@@ -333,20 +354,19 @@ export default Component.extend({
   }).drop(),
 
   testConnection: task(function* () {
-    const keyHash = '';
     this.set('isTestCompleted', false);
     this.set('isTestPassed', false);
     this.set('testFailMessage', '');
 
     try {
-      const res = yield this.api.patch('/insights_plugins/authenticate_key',  {
+      const res = yield this.api.post('/insights_plugins/authenticate_key',  {
         data: {
           plugin_type: this.selectedPlugin.id,
           public_id: this.publicKey,
-          private_key: this.privateKey,
-          app_key: this.appKey,
+          private_key: this.encryptInputValueForAuthentication(this.privateKey),
+          app_key: this.encryptInputValueForAuthentication(this.appKey),
           domain: this.domain,
-          key_hash: keyHash
+          key_hash: this.encryptionKeyHash
         }
       });
       this.set('isTestCompleted', true);
@@ -359,7 +379,52 @@ export default Component.extend({
     } catch (e) {
       this.set('isTestCompleted', true);
       this.set('isTestPassed', false);
-      this.set('testFailMessage', e);
+      this.set('testFailMessage', e.error_message);
     }
   }),
+
+  generateRandomString: function () {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let x = 0; x <= 40; x++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+  },
+
+  encryptInputValueForAuthentication: function (inputValue) {
+    const encrypted = CryptoJS.AES.encrypt(inputValue, this.generateRandomString());
+    const encrypt = new JSEncrypt;
+    encrypt.setPublicKey(this.encryptionKey);
+
+    const key = encrypt.encrypt(encrypted.key.toString(CryptoJS.enc.Base64));
+    const iv = encrypt.encrypt(encrypted.iv.toString(CryptoJS.enc.Base64));
+    const ciphertext = encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+    return `${key}:${iv}:${ciphertext}`;
+  },
+
+  generateKubeKey: task(function* () {
+    return yield this.api.get('/insights_plugins/generate_key', {
+      data: {
+        plugin_name: this.pluginName,
+        plugin_type: this.selectedPlugin.id
+      }
+    }).then((data) => {
+      this.set('kubeKeyGenerated', true);
+      this.set('kubeGeneratedPublicId', data['keys'][0]);
+      this.set('kubeGeneratedPrivateKey', data['keys'][1]);
+    });
+  }).drop(),
+
+  actions: {
+    closeCreateKubePlugin() {
+      this.set('kubeKeyGenerated', false);
+      this.set('kubeGeneratedPublicId', null);
+      this.set('kubeGeneratedPrivateKey', null);
+      this.reloadPlugins();
+      this.onClose();
+    }
+  }
 });

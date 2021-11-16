@@ -67,7 +67,7 @@
         {{plugin.pluginCategory}}
       </td>
       <td>
-        {{moment-format plugin.lastScanEndedAt 'YYYY-MM-DD HH:mm:ss'}}
+        {{moment-format plugin.lastScanEnd 'YYYY-MM-DD HH:mm:ss'}}
       </td>
       <td>
         <div class="icon-scan-status icon-scan-{{plugin.scanStatus}}"></div>
@@ -94,6 +94,7 @@
 <Insights::PluginsModal
   @isOpen={{this.showPluginsModal}}
   @onClose={{fn (mut this.showPluginsModal) false}}
+  @reloadPlugins={{action 'reloadPlugins'}}
 />
 <Insights::DeletePluginModal
   @isOpen={{this.showRemovePluginModal}}

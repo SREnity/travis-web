@@ -10,6 +10,7 @@
       as |form|
     >
       <div id='testsOverlayPatchInput'></div>
+      {{#unless this.kubeKeyGenerated}}
       <div id='myContentModel' class='modal-content'>
         <h6 class='modal-h6'>
           Add New Plugin
@@ -38,6 +39,7 @@
             <field.select
               class="modal-input"
               @searchEnabled={{false}}
+              @searchField="name"
               @placeholder="Select plugin type"
               @selected={{this.selectedPlugin}}
               @options={{this.pluginTypes}}
@@ -147,7 +149,7 @@
         </div>
         {{#if this.isExternalPlugin}}
         <div class="modal-generate-link">
-          <a class="btn" id="generateLink">Generate Key</a>
+          <a class="btn {{if this.isFormValid '' 'disabled'}}" id="generateLink" {{on 'click' (action (perform this.generateKubeKey))}}>Generate Key</a>
           <div class="modal-text">
             {{{this.pluginHelpTextHeader}}}
             <div class='tooltip'>
@@ -156,6 +158,7 @@
           </div>
         </div>
         {{/if}}
+        {{#unless (eq this.selectedPlugin.id 'kube')}}
         <div class="test-connect" id="new-plugin-authenticate">
           <a class="a test-connection" id="test-connection" {{on 'click' (perform this.testConnection)}}>Test connection</a>
           {{#if this.isTestRunning}}
@@ -168,6 +171,7 @@
             </div>
           {{/if}}
         </div>
+        {{/unless}}
         {{#if this.isTestCompleted}}
           {{#if this.isTestPassed}}
             <div class="test-connect" id="test-success">
@@ -186,9 +190,22 @@
           <div class="test-connection-loading-message" id="test-load">Testing connection...</div>
         {{/if}}
       </div>
+      {{else}}
+      <div style="margin:10px">
+        <h4>Your plugin was successfully created!</h4>
+        <h6>Make sure you save your private ID somewhere safe because you will not be able to see it again.</h6>
+        <h6>You will also need it to configure your new plugin.</h6>
+        <p>
+          PUBLIC ID:<br>{{this.kubeGeneratedPublicId}}<br>PRIVATE KEY:<br>{{this.kubeGeneratedPrivateKey}}<br>
+          <a class="btn btn-sre" {{on 'click' (action 'closeCreateKubePlugin')}}>Done</a>
+        </p>
+      </div>
+      {{/unless}}
       <div class="modal-footer" id="myModelFooter">
         <a class="modal-close waves-effect waves-light btn btn-link" {{on 'click' (fn @onClose)}}>Cancel</a>
-        <button class="new-plugin-save modal-save waves-effect waves-sre-contain btn btn-primary form-submit {{if this.isFormValid '' 'disabled'}}" id="save-plugin" onclick={{form.submit}}> Save</button>
+        {{#unless (eq this.selectedPlugin.id 'kube')}}
+        <button class="new-plugin-save modal-save waves-effect waves-sre-contain btn btn-primary form-submit {{if this.isTestPassed '' 'disabled'}}" id="save-plugin" onclick={{form.submit}}> Save</button>
+        {{/unless}}
       </div>
     </TravisForm>
   </div>
