@@ -29,14 +29,18 @@
               @searchEnabled={{false}}
               @placeholder="Select product"
               @selected={{this.selectedPlugin}}
-              @onchange={{action (mut this.selectedPlugin)}}
-              @search={{perform this.search}}
+              @onchange={{action 'getProbeOptions'}}
+              @options={{this.pluginOptions}}
               as |plugin|
             >
               {{plugin.name}}
             </field.select>
           </form.field>
           <div id="testsOverlayDisplayLabels">
+            {{#if this.pluginCategory}}
+              <span id="testCategoryKey" class='label-key'> Category:</span>
+              <span id="testCategoryVal" class='label-val'> {{this.pluginCategory}}</span>
+            {{/if}}
             <span id="testTypeKey" class='label-key'> Type:</span>
             {{#if (eq probeType 'normal')}}
               <span id="testTypeVal" class='label-val'>Native</span>
@@ -45,6 +49,7 @@
             {{/if}}
           </div>
         </fieldset>
+        {{#if (eq probeType 'normal')}}
         <fieldset class="modal-field" id="testsOverlayProbe">
           <legend class="tooltipped modal-field-legend"> Probe</legend>
           <form.field
@@ -68,6 +73,7 @@
             </field.select>
           </form.field>
         </fieldset>
+        {{/if}}
         <fieldset class="modal-field">
           <legend class="tooltipped modal-field-legend"> Notification</legend>
           <form.field
@@ -106,12 +112,15 @@
           >
             <field.textarea id="testsOverlayTest" class="modal-input" placeholder="Probe query" />
           </form.field>
-          <span class="{{if (eq probeType 'normal') 'hide-well'}}" id="openQueryEditor" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
-            Open Query Editor
-          </span>
-          <span class="{{if (eq probeType 'custom') 'hide-well'}}" id="editQuery" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
-            Edit Query
-          </span>
+          {{#if (eq probeType 'custom')}}
+            <span id="openQueryEditor" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
+              Open Query Editor
+            </span>
+          {{else if (eq probeType 'normal')}}
+            <span id="editQuery" {{on 'click' (fn (mut this.probeQueryEditorModal) true)}}>
+              Edit Query
+            </span>
+          {{/if}}
         </fieldset>
         <fieldset class="modal-field">
           <form.field
@@ -159,15 +168,16 @@
             <i class="fa fa-info-circle tooltipped"></i>
             Category:
           </span>
-          <span id="testsOverlayCategory"></span>
+          <span id="testsOverlayCategory">{{this.pluginCategory}}</span>
 
-          <div class="action-items pull-right help-link">
+          <div class="action-items pull-right help-link" {{on 'click' (fn (mut this.showHelpLinkInput) (not this.showHelpLinkInput))}}>
             <span id="addHelpLink">
               Add help link
             </span>
           </div>
         </div>
-        <div class="hide-well" id="helpLinkInput">
+        {{#if this.showHelpLinkInput}}
+        <div id="helpLinkInput">
           <fieldset class="modal-field">
             <legend class="tooltipped modal-field-legend"> Further Reading</legend>
             <form.field
@@ -185,6 +195,7 @@
             You can add a relevant link from the vendor (service provider) which corresponds to the probe’s scope, to shed more light to the purpose of the tests for future reference.
           </div>
         </div>
+        {{/if}}
         <fieldset class="modal-field">
           <legend class="tooltipped modal-field-legend"> Probe Weighting</legend>
           <table class="centered">
@@ -239,12 +250,13 @@
       </div>
       <div class="modal-footer">
         <a class="modal-close waves-effect waves-light btn btn-link" {{on 'click' (fn @onClose)}}>Cancel</a>
-        <a class="modal-save waves-effect waves-light btn btn-primary" id="probe-submit-btn">Add</a>
+        <a class="modal-save waves-effect waves-light btn btn-primary" onclick={{form.submit}} id="probe-submit-btn">Add</a>
       </div>
     </TravisForm>
   </div>
 </Modal>
 <Insights::ProbeQueryModal
   @isOpen={{this.probeQueryEditorModal}}
-  @onClose={{fn (mut this.probeQueryEditorModal) false}}  
+  @onClose={{fn (mut this.probeQueryEditorModal) false}}
+  @query={{this.query}}
 />

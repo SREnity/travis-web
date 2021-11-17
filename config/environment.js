@@ -4,6 +4,7 @@
 const providers = require('./providers');
 const { plans } = require('./plans.js');
 const { screens } = require('./screens.js');
+const newInsights = require('./new-insights');
 
 const tailwindConfig = require('./tailwind.js');
 const resolveTwConfig = require('tailwindcss/resolveConfig');
@@ -41,6 +42,7 @@ module.exports = function (environment) {
     providers,
     plans,
     screens,
+    newInsights,
     tailwind,
     EmberENV: {
       FEATURES: {

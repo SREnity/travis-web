@@ -13,7 +13,7 @@
     </div>
     <div class="modal-footer">
       <a class="modal-close waves-effect waves-light btn btn-link" {{on 'click' (fn @onClose)}}>Cancel</a>
-      <a class="modal-save waves-effect waves-light btn btn-danger" id="modal-confirm-delete">Delete</a>
+      <a class="modal-save waves-effect waves-light btn btn-danger" {{on 'click' (perform this.deleteProbes)}} id="modal-confirm-delete">Delete</a>
     </div>
   </div>
 </Modal>

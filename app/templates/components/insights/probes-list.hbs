@@ -14,8 +14,8 @@
       {{/dd.content}}
     {{/basic-dropdown}}
     <a class="action-item waves-effect waves-light action-btn edit-btn {{if this.allowEdit '' 'disabled'}}" id="user-tests-button-edit">Edit Probe</a>
-    <a class="deactive-test-btn action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" id="user-tests-button-toggle">Toggle Probe</a>
-    <div class="action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" id="user-test-action-delete">Delete Probe</div>
+    <a class="deactive-test-btn action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (perform this.toggle)}} id="user-tests-button-toggle">Toggle Probe</a>
+    <div class="action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (fn (mut this.showRemoveProbeModal) true)}} id="user-test-action-delete">Delete Probe</div>
     <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadProbes')}}>
       <SvgImage @name="icon-reload" @class="ico-refresh-page" />
       Refresh the list
@@ -38,7 +38,7 @@
     <tr>
       <th>
         <label>
-          <input class="filled-in" id="checkbox-head" type="checkbox" />
+          <input class="filled-in" id="checkbox-head" type="checkbox" checked={{this.isAllSelected}} onChange={{action "toggleAll"}} />
           <span></span>
         </label>
       </th>
@@ -55,15 +55,21 @@
     <tr class="tableRow" id="test-{{probe.id}}">
       <td>
         <label>
-          <input class="checkbox-table filled-in" id="{{probe.id}}" type="checkbox" />
+          <input
+            class="checkbox-table filled-in"
+            id="{{probe.id}}"
+            type="checkbox"
+            checked={{contains probe.id this.selectedProbeIds}}
+            onChange={{action "toggleProbe" probe.id}}
+          />
           <span></span>
         </label>
       </td>
-      <td>
+      <td class='capitalize-text'>
         {{probe.type}}
       </td>
       <td>
-        <span>{{probe.pluginTypeName}}</span>
+        <span>{{probe.pluginType}}</span>
         <span></span>
         {{#if probe.labels}}
           {{#if (and probe.sponsorName (eq probe.type 'native'))}}
@@ -85,7 +91,7 @@
         {{/if}}
       </td>
       <td>
-        {{probe.pluginCategoryName}}
+        {{probe.pluginCategory}}
       </td>
       <td>
         {{probe.notification}}
@@ -110,4 +116,11 @@
   @isOpen={{this.showProbesModal}}
   @onClose={{fn (mut this.showProbesModal) false}}
   @probeType={{this.probeType}}
+  @reloadProbes={{action 'reloadProbes'}}
+/>
+<Insights::DeleteProbeModal
+  @isOpen={{this.showRemoveProbeModal}}
+  @onClose={{fn (mut this.showRemoveProbeModal) false}}
+  @selectedProbeIds={{this.selectedProbeIds}}
+  @reloadProbes={{action 'reloadProbes'}}
 />

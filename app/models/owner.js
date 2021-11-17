@@ -303,7 +303,7 @@ export default VcsEntity.extend({
   insightsProbes: dynamicQuery(function* ({ page = 1, filter = '', customOptions = {} }) {
     customOptions = Object.assign({ active: true, sort: 'plugin_type', sortDirection: 'asc' }, customOptions);
 
-    return yield this.store.paginated('insights-test-template', {
+    return yield this.store.paginated('insights-probe', {
       limit,
       page,
       sort_by: customOptions.sort,

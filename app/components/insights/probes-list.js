@@ -6,6 +6,7 @@ import config from 'travis/config/environment';
 
 export default Component.extend({
   flashes: service(),
+  api: service(),
 
   showProbesModal: false,
   probeType: 'normal',
@@ -19,11 +20,25 @@ export default Component.extend({
   isAllSelected: false,
   selectedProbeIds: [],
   selectableProbeIds: map('probes', (probe) => probe.id),
+  showRemoveProbeModal: false,
 
   search: task(function* () {
     yield timeout(config.intervals.repositoryFilteringDebounceRate);
     yield this.probes.applyFilter(this.query);
   }).restartable(),
+
+  toggle: task(function* () {
+    let data = {
+      ids: this.selectedProbeIds,
+    };
+    const self = this;
+
+    yield this.api.patch('/insights_probes/toggle_active', { data: data }).then(() => {
+      self.probes.reload();
+      self.set('selectedProbeIds', []);
+      self.set('isAllSelected', false);
+    });
+  }).drop(),
 
   actions: {
     openNormalProbeModal(dropdown) {
@@ -73,5 +88,5 @@ export default Component.extend({
 
       this.probes.applyCustomOptions({ sort: field, sortDirection: this.sortDirection });
     }
-  }
+  },
 });
