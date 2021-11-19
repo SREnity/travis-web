@@ -13,7 +13,7 @@
         </li>
       {{/dd.content}}
     {{/basic-dropdown}}
-    <a class="action-item waves-effect waves-light action-btn edit-btn {{if this.allowEdit '' 'disabled'}}" id="user-tests-button-edit">Edit Probe</a>
+    <a class="action-item waves-effect waves-light action-btn edit-btn {{if this.allowEdit '' 'disabled'}}"  {{on 'click' (action 'openEditProbeModal')}} id="user-tests-button-edit">Edit Probe</a>
     <a class="deactive-test-btn action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (perform this.toggle)}} id="user-tests-button-toggle">Toggle Probe</a>
     <div class="action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (fn (mut this.showRemoveProbeModal) true)}} id="user-test-action-delete">Delete Probe</div>
     <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadProbes')}}>
@@ -69,7 +69,7 @@
         {{probe.type}}
       </td>
       <td>
-        <span>{{probe.pluginType}}</span>
+        <span>{{probe.pluginTypeName}}</span>
         <span></span>
         {{#if probe.labels}}
           {{#if (and probe.sponsorName (eq probe.type 'native'))}}
@@ -117,6 +117,8 @@
   @onClose={{fn (mut this.showProbesModal) false}}
   @probeType={{this.probeType}}
   @reloadProbes={{action 'reloadProbes'}}
+  @probe={{this.selectedProbe}}
+  @editMode={{this.probeModalEditMode}}
 />
 <Insights::DeleteProbeModal
   @isOpen={{this.showRemoveProbeModal}}

@@ -6,8 +6,10 @@ import config from 'travis/config/environment';
 
 export default Component.extend({
   flashes: service(),
+  store: service(),
   api: service(),
 
+  probeModalEditMode: false,
   showProbesModal: false,
   probeType: 'normal',
 
@@ -19,6 +21,7 @@ export default Component.extend({
   allowToggle: gt('selectedProbeIds.length', 0),
   isAllSelected: false,
   selectedProbeIds: [],
+  selectedProbe: null,
   selectableProbeIds: map('probes', (probe) => probe.id),
   showRemoveProbeModal: false,
 
@@ -43,17 +46,30 @@ export default Component.extend({
   actions: {
     openNormalProbeModal(dropdown) {
       dropdown.actions.close();
+      this.set('probeModalEditMode', false);
+      this.set('selectedProbe', null);
       this.set('probeType', 'normal');
       this.set('showProbesModal', true);
     },
 
     openCustomProbeModal(dropdown) {
       dropdown.actions.close();
+      this.set('probeModalEditMode', false);
+      this.set('selectedProbe', null);
+      this.set('probeType', 'custom');
+      this.set('showProbesModal', true);
+    },
+
+    openEditProbeModal() {
+      this.set('selectedProbe', this.store.peekRecord('insights-probe', this.selectedProbeIds[0]));
+      this.set('probeModalEditMode', true);
       this.set('probeType', 'custom');
       this.set('showProbesModal', true);
     },
 
     reloadProbes() {
+      this.set('selectedProbeIds', []);
+      this.set('isAllSelected', false);
       this.probes.reload();
     },
 

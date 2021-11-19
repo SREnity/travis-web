@@ -4,6 +4,7 @@ import { reads } from '@ember/object/computed';
 export default Model.extend({
   type: attr('string'),
   pluginType: attr('string'),
+  pluginTypeName: attr('string'),
   pluginCategory: attr('string'),
   labels: attr(),
   notification: attr('string'),
@@ -16,7 +17,7 @@ export default Model.extend({
   test: attr(),
   descriptionLink: attr(),
   tagList: attr(),
-  securityArchitecture_weight: attr(),
+  securityArchitectureWeight: attr(),
   costArchitecture_weight: attr(),
   deliveryArchitectureWeight: attr(),
   securityMaintenanceWeight: attr(),

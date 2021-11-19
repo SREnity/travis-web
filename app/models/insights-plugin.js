@@ -1,6 +1,10 @@
 import Model, { attr } from '@ember-data/model';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency';
 
 export default Model.extend({
+  api: service(),
+
   name: attr('string'),
   publicId: attr('string'),
   privateKey: attr('string'),
@@ -12,5 +16,9 @@ export default Model.extend({
   pluginCategory: attr('string'),
   lastScanEnd: attr('date'),
   scanStatus: attr('string'),
-  pluginStatus: attr('string')
+  pluginStatus: attr('string'),
+
+  getScanLogs: task(function* () {
+    return yield this.api.get(`/insights_plugin/${this.id}/get_scan_logs`);
+  }).drop(),
 });

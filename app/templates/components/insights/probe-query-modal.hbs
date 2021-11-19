@@ -1,6 +1,6 @@
 <Modal
   @isVisible={{@isOpen}}
-  @onClose={{fn @onClose}}
+  @onClose={{fn (action 'onCloseModal')}}
 >
   <div class="modal modal-fixed-footer" id="sandbox-modal">
     <TravisForm
@@ -18,7 +18,6 @@
             <legend class="tooltipped modal-field-legend"> Plugin</legend>
             <form.field
               @value={{this.selectedPlugin}}
-              @required={{true}}
               @onChange={{action (mut this.selectedPlugin)}}
               @showValidationStatusIcons={{false}}
               @showValidationStatusMessage={{false}}
@@ -26,11 +25,11 @@
             >
               <field.select
                 class="modal-input"
-                @searchField="name"
+                @searchEnabled={{false}}
                 @placeholder="Select plugin..."
                 @selected={{this.selectedPlugin}}
-                @onchange={{action (mut this.selectedPlugin)}}
-                @search={{perform this.search}}
+                @onchange={{action 'onPluginChange'}}
+                @options={{this.pluginOptions}}
                 as |plugin|
               >
                 {{plugin.name}}
@@ -42,16 +41,18 @@
           <div class="col-left">
             <div class="sample-json-container">
               <span class="label">Sample JSON</span>
-              <pre class="sample-json"></pre>
+              <pre class="sample-json">{{this.sampleJson}}</pre>
             </div>
           </div>
           <div class="col-right">
             <div class="probe-output-container">
               <span class="label">Output</span>
-              <div class="spinner hide">
-                <!--<%= image_pack_tag 'spinner.gif' %>-->
+              {{#if this.isQueryRunning}}
+              <div class="spinner">
+                <img src="/images/insights/spinner.gif" />
               </div>
-              <div class="probe-output"></div>
+              {{/if}}
+              <div class="probe-output">{{{this.probeOutput}}}</div>
             </div>
             <fieldset class="modal-field">
               <legend class="tooltipped modal-field-legend"> Query</legend>
@@ -66,13 +67,13 @@
               </form.field>
             </fieldset>
             <div class="query-buttons">
-              <a class="clear-query btn action-btn">
+              <a class="clear-query btn action-btn" {{on 'click' (action 'clearQuery')}}>
                 Clear
               </a>
               <a class="btn action-btn" href="http://docs.srenity.io/docs/getting-started/#our-object-path" target="_blank">
                 Help
               </a>
-              <a class="run-query btn action-btn">
+              <a class="run-query btn action-btn {{if this.isRunAllowed '' 'disabled'}}" {{on 'click' (action (perform this.runQuery))}}>
                 Run Query
               </a>
             </div>
@@ -81,10 +82,10 @@
       </div>
     </TravisForm>
     <div class="modal-footer">
-      <a class="btn btn-link" id="sandbox-cancel" {{on 'click' (fn @onClose)}}>
+      <a class="btn btn-link" id="sandbox-cancel" {{on 'click' (action 'onCloseModal')}}>
         Cancel
       </a>
-      <a class="btn btn-primary" id="sandbox-save">
+      <a class="btn btn-primary {{if this.isSaveAllowed '' 'disabled'}}" id="sandbox-save" {{on 'click' (action 'onSaveQuery')}}>
         Save and Close
       </a>
     </div>

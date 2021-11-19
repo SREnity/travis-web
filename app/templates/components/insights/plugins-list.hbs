@@ -74,7 +74,7 @@
         <span>{{plugin.scanStatus}}</span>
       </td>
       <td>
-        <a class="scanDetailsLink modal-trigger" data-user_plugin_id="{{plugin.id}}" href="#scandetails-modal" id="{{plugin.name}}">Scan Log</a>
+        <a class="scanDetailsLink modal-trigger" data-user_plugin_id="{{plugin.id}}" {{on 'click' (action 'openScanLogModal' plugin)}} id="{{plugin.name}}">Scan Log</a>
       </td>
       <td>
         {{plugin.pluginStatus}}
@@ -95,6 +95,11 @@
   @isOpen={{this.showPluginsModal}}
   @onClose={{fn (mut this.showPluginsModal) false}}
   @reloadPlugins={{action 'reloadPlugins'}}
+/>
+<Insights::ScanLogModal
+  @isOpen={{this.showScanLogModal}}
+  @onClose={{fn (mut this.showScanLogModal) false}}
+  @plugin={{this.scanLogPlugin}}
 />
 <Insights::DeletePluginModal
   @isOpen={{this.showRemovePluginModal}}

@@ -10,6 +10,7 @@ export default Component.extend({
 
   showPluginsModal: false,
   showRemovePluginModal: false,
+  showScanLogModal: false,
 
   sortField: 'name',
   sortDirection: 'asc',
@@ -19,6 +20,7 @@ export default Component.extend({
   allowToggle: gt('selectedPluginIds.length', 0),
   selectedPluginIds: [],
   selectablePluginIds: map('plugins', (plugin) => plugin.id),
+  scanLogPlugin: null,
 
   actions: {
     reloadPlugins() {
@@ -57,6 +59,11 @@ export default Component.extend({
       this.set('sortField', field);
 
       this.plugins.applyCustomOptions({ sort: field, sortDirection: this.sortDirection });
+    },
+
+    openScanLogModal(plugin) {
+      this.set('scanLogPlugin', plugin);
+      this.set('showScanLogModal', true);
     }
   },
 

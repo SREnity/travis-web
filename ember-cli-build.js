@@ -96,7 +96,8 @@ module.exports = function () {
     outputPaths: {
       app: {
         css: {
-          'tailwind/base': '/assets/tailwind-base.css'
+          'tailwind/base': '/assets/tailwind-base.css',
+          'materialize/materialize': '/assets/materialize.css'
         }
       }
     }
@@ -116,6 +117,7 @@ module.exports = function () {
   importNpmDependency(app, 'node_modules/deep-freeze/index.js');
   importNpmDependency(app, 'node_modules/crypto-js/index.js');
   importNpmDependency(app, 'node_modules/jsencrypt/bin/jsencrypt.min.js');
+  importNpmDependency(app, 'node_modules/materialize-css/dist/js/materialize.min.js');
 
   return app.toTree(emojiAssets);
 };
