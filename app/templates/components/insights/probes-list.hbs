@@ -96,7 +96,13 @@
       <td>
         {{probe.notification}}
       </td>
-      <td class="chipCell{{probe.id}}"></td>
+      <td class="chipCell{{probe.id}}">
+        {{#each probe.tagList as |tag|}}
+          <div class='chip'>
+            {{tag.name}}
+          </div>
+        {{/each}}
+      </td>
       <td>
         {{probe.status}}
       </td>

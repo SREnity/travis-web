@@ -110,10 +110,10 @@ div.scan-log-result::-webkit-scrollbar-thumb {
 
 .head-number-count {
   @extend .number-count;
-  margin: 0px 10px 27px 10px;
+  margin: 0px 0px 27px 10px;
   display: inline-block;
   padding-left: 2px;
-  width: 18px;
+  width: 8px;
   direction: rtl;
 }
 
@@ -133,6 +133,11 @@ div.scan-log-result::-webkit-scrollbar-thumb {
 .text-style-bold {
   @extend .scanlog-modal-text;
   font-weight: bold !important;
+}
+
+.text-style-capitalized {
+  @extend .scanlog-modal-text;
+  text-transform: capitalize;
 }
 
 .key {
@@ -164,7 +169,7 @@ div.scan-log-result::-webkit-scrollbar-thumb {
   height: 10px;
   margin-left: 5px;
   display: inline-block;
-  background-image: url('../images/icons/icon-collapse-arrow.svg');
+  background-image: url('../images/insights/icon-collapse-arrow.svg');
 }
 
 .collapsed {
