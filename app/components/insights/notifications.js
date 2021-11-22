@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { reads } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
 const NOTIFICATIONS_FILTER_LABELS = {
   'active': 'Active Notifications',
@@ -33,5 +34,30 @@ export default Component.extend({
         this.notifications.applyCustomOptions({ active: undefined });
       }
     }
-  }
+  },
+
+  notificationCount: computed('notifications', function () {
+    let count = {
+      'info': 0,
+      'low': 0,
+      'med': 0,
+      'high': 0,
+      'total': 0
+    };
+
+    this.notifications.forEach(notification => {
+      if (notification.weight === 0) {
+        count.info++;
+      } else if (notification.weight < 1.75) {
+        count.low++;
+      } else if (notification.weight < 2.75) {
+        count.med++;
+      } else {
+        count.high++;
+      }
+      count.total++;
+    });
+
+    return count;
+  }),
 });
