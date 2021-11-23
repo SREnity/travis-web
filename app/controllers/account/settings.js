@@ -147,6 +147,16 @@ export default Controller.extend({
   selectedTimeFormat: reads('preferences.insightsTimeFormat'),
   timeFormatList: ['h:mm:ss A', 'hh:mm:ss'],
 
+  insightsEmails: reads('preferences.insightsEmails'),
+  toggleInsightsEmails: task(function* (value) {
+    try {
+      yield this.preferences.set('insights_scan_notifications', value);
+    } catch (err) {
+      this.flashes.clear();
+      this.flashes.error('Something went wrong and your email settings were not saved.');
+    }
+  }).restartable(),
+
   actions: {
     setInsightsVis(val) {
       this.setPrivateInsights.perform(val);

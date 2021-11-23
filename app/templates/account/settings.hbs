@@ -85,18 +85,18 @@
     </div>
     <div class="build-emails">
       <div class="row">
-        <div class="name" data-test-email-settings-title>
+        <div class="name" data-test-insights-email-settings-title>
           Scan notifications
         </div>
-        <div class="description" data-test-email-settings-description>
+        <div class="description" data-test-insights-email-settings-description>
           Get emails after completion of Insights scan
         </div>
         <div class="controls">
           <TravisSwitch
-            @active={{this.buildEmails}}
-            @disabled={{this.toggleBuildEmails.isRunning}}
-            @onToggle={{perform this.toggleBuildEmails}}
-            data-test-email-settings-toggle="true"
+            @active={{this.insightsEmails}}
+            @disabled={{this.toggleInsightsEmails.isRunning}}
+            @onToggle={{perform this.toggleInsightsEmails}}
+            data-test-insights-email-settings-toggle="true"
           />
         </div>
       </div>
