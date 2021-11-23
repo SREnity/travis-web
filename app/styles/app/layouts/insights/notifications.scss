@@ -334,7 +334,6 @@
 
 .snooze-disabled {
   @extend .disabled;
-  pointer-events: none;
 }
 
 .snooze-button:before {

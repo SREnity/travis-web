@@ -2,7 +2,7 @@
   <div class="user-plugins-actions__items action-items">
     <a class="waves-effect waves-light action-btn" id="new-plugin-button" {{on 'click' (fn (mut this.showPluginsModal) true)}}>New Plugin</a>
     <a class="deactive-plugin-btn action-item waves-effect waves-sre-action action-btn {{if this.allowToggle '' 'disabled'}}" id="deactivate-plugin-button" {{on 'click' (perform this.toggle)}}>Toggle Plugin</a>
-    <div class="action-item waves-effect waves-light action-item action-btn {{if this.allowToggle '' 'disabled'}}" id="user-plugins-action-delete" {{on 'click' (fn (mut this.showRemovePluginModal) true)}}>Delete Plugin</div>
+    <div class="action-item waves-effect waves-light action-item action-btn {{if this.allowToggle '' 'disabled'}}" id="user-plugins-action-delete" {{on 'click' (action 'openDeleteProbeModal')}}>Delete Plugin</div>
     <div class="refresh-page-button waves-effect waves-sre-action action-btn" {{on 'click' (action 'reloadPlugins')}}>
       <SvgImage @name="icon-reload" @class="ico-refresh-page" />
       Refresh the list
@@ -67,7 +67,7 @@
         {{plugin.pluginCategory}}
       </td>
       <td>
-        {{moment-format plugin.lastScanEnd 'YYYY-MM-DD HH:mm:ss'}}
+        {{moment-format plugin.lastScanEnd this.momentFormat}}
       </td>
       <td>
         <div class="icon-scan-status icon-scan-{{plugin.scanStatus}}"></div>

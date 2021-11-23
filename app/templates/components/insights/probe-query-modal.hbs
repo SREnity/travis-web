@@ -15,7 +15,10 @@
         </h6>
         <div class="plugin-select-container">
           <fieldset class="modal-field">
-            <legend class="tooltipped modal-field-legend"> Plugin</legend>
+            <legend class="tooltipped modal-field-legend">
+               Plugin
+              <EmberTooltip @text="This is the plugin" @side="bottom" />
+            </legend>
             <form.field
               @value={{this.selectedPlugin}}
               @onChange={{action (mut this.selectedPlugin)}}
@@ -55,7 +58,10 @@
               <div class="probe-output">{{{this.probeOutput}}}</div>
             </div>
             <fieldset class="modal-field">
-              <legend class="tooltipped modal-field-legend"> Query</legend>
+              <legend class="tooltipped modal-field-legend">
+                 Query
+                <EmberTooltip @text="Query" @side="bottom" />
+              </legend>
               <form.field
                 @value={{this.query}}
                 @onChange={{action (mut this.query)}}
@@ -70,9 +76,9 @@
               <a class="clear-query btn action-btn" {{on 'click' (action 'clearQuery')}}>
                 Clear
               </a>
-              <a class="btn action-btn" href="http://docs.srenity.io/docs/getting-started/#our-object-path" target="_blank">
+              <ExternalLinkTo @class="btn action-btn" @href="http://docs.srenity.io/docs/getting-started/#our-object-path" @title="Help">
                 Help
-              </a>
+              </ExternalLinkTo>
               <a class="run-query btn action-btn {{if this.isRunAllowed '' 'disabled'}}" {{on 'click' (action (perform this.runQuery))}}>
                 Run Query
               </a>

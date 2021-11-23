@@ -15,7 +15,7 @@
     {{/basic-dropdown}}
     <a class="action-item waves-effect waves-light action-btn edit-btn {{if this.allowEdit '' 'disabled'}}"  {{on 'click' (action 'openEditProbeModal')}} id="user-tests-button-edit">Edit Probe</a>
     <a class="deactive-test-btn action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (perform this.toggle)}} id="user-tests-button-toggle">Toggle Probe</a>
-    <div class="action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (fn (mut this.showRemoveProbeModal) true)}} id="user-test-action-delete">Delete Probe</div>
+    <div class="action-item waves-effect waves-light action-btn {{if this.allowToggle '' 'disabled'}}" {{on 'click' (action 'openDeleteProbeModal')}} id="user-test-action-delete">Delete Probe</div>
     <div class="refresh-page-button waves-effect waves-light action-btn" {{on 'click' (action 'reloadProbes')}}>
       <SvgImage @name="icon-reload" @class="ico-refresh-page" />
       Refresh the list

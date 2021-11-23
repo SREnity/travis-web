@@ -1,12 +1,21 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { map, gt } from '@ember/object/computed';
+import { map, gt, reads } from '@ember/object/computed';
 import { task, timeout } from 'ember-concurrency';
+import { computed } from '@ember/object';
 import config from 'travis/config/environment';
 
 export default Component.extend({
   flashes: service(),
   api: service(),
+  preferences: service(),
+
+  timeZone: reads('preferences.insightsTimeZone'),
+  dateFormat: reads('preferences.insightsDateFormat'),
+  timeFormat: reads('preferences.insightsTimeFormat'),
+  momentFormat: computed('dateFormat', 'timeFormat', function () {
+    return `${this.dateFormat} ${this.timeFormat}`;
+  }),
 
   showPluginsModal: false,
   showRemovePluginModal: false,
@@ -64,24 +73,37 @@ export default Component.extend({
     openScanLogModal(plugin) {
       this.set('scanLogPlugin', plugin);
       this.set('showScanLogModal', true);
+    },
+
+    openDeleteProbeModal() {
+      if (this.selectedPluginIds.length) {
+        this.set('showRemovePluginModal', true);
+      }
     }
   },
 
   toggle: task(function* () {
-    let data = {
-      ids: this.selectedPluginIds,
-    };
-    const self = this;
+    if (this.selectedPluginIds.length) {
+      let data = {
+        ids: this.selectedPluginIds,
+      };
+      const self = this;
 
-    yield this.api.patch('/insights_plugins/toggle_active', { data: data }).then(() => {
-      self.plugins.reload();
-      self.set('selectedPluginIds', []);
-      self.set('isAllSelected', false);
-    });
+      yield this.api.patch('/insights_plugins/toggle_active', { data: data }).then(() => {
+        self.plugins.reload();
+        self.set('selectedPluginIds', []);
+        self.set('isAllSelected', false);
+      });
+    }
   }).drop(),
 
   search: task(function* () {
     yield timeout(config.intervals.repositoryFilteringDebounceRate);
     yield this.plugins.applyFilter(this.query);
   }).restartable(),
+
+  init() {
+    this._super(...arguments);
+    this.preferences.fetchPreferences.perform();
+  }
 });

@@ -19,6 +19,9 @@ export default Service.extend({
   buildEmails: reads('hash.build_emails.value'),
   privateInsightsVisibility: reads('hash.private_insights_visibility.value'),
   consumeOSSCredits: reads('hash.consume_oss_credits.value'),
+  insightsTimeZone: reads('hash.insights_time_zone.value'),
+  insightsDateFormat: reads('hash.insights_date_format.value'),
+  insightsTimeFormat: reads('hash.insights_time_format.value'),
 
   fetchPreferences: task(function* (id, isOrganization) {
     if (isOrganization) {

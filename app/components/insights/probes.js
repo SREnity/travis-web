@@ -17,7 +17,7 @@ export default Component.extend({
   probeFilterLabel: 'Active Probes',
   probeFilter: 'active',
 
-  lastScanEndedAt: 'e',
+  lastScanEndedAt: null,
 
   probes: reads('owner.insightsProbes'),
 

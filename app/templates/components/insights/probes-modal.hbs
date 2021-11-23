@@ -19,7 +19,10 @@
         </h6>
 
         <fieldset class="modal-field">
-          <legend class="tooltipped modal-field-legend"> Product</legend>
+          <legend class="tooltipped modal-field-legend">
+             Product
+            <EmberTooltip @text="This is the product of plugin" @side="bottom" />
+          </legend>
           <form.field
             @disabled={{this.editMode}}
             @value={{this.selectedPlugin}}
@@ -48,14 +51,23 @@
             <span id="testTypeKey" class='label-key'> Type:</span>
             {{#if (eq probeType 'normal')}}
               <span id="testTypeVal" class='label-val'>Native</span>
+              {{#if this.sponsorName}}
+                <span id="testLabel" class='label-val'>CREATED BY {{this.sponsorName}}</span>
+              {{/if}}
             {{else if (eq probeType 'custom')}}
               <span id="testTypeVal" class='label-val'>Custom</span>
+              {{#if this.sponsorName}}
+                <span id="testLabel" class='label-val'>BASED ON {{this.sponsorName}}</span>
+              {{/if}}
             {{/if}}
           </div>
         </fieldset>
         {{#if (eq probeType 'normal')}}
         <fieldset class="modal-field" id="testsOverlayProbe">
-          <legend class="tooltipped modal-field-legend"> Probe</legend>
+          <legend class="tooltipped modal-field-legend">
+             Probe
+            <EmberTooltip @text="This is the probe" @side="bottom" />
+          </legend>
           <form.field
             @value={{this.selectedProbe}}
             @onChange={{action (mut this.selectedProbe)}}
@@ -78,7 +90,10 @@
         </fieldset>
         {{/if}}
         <fieldset class="modal-field">
-          <legend class="tooltipped modal-field-legend"> Notification</legend>
+          <legend class="tooltipped modal-field-legend">
+             Notification
+            <EmberTooltip @text="This is the notification text for the Probe" @side="bottom" />
+          </legend>
           <form.field
             @value={{this.notification}}
             @required={{true}}
@@ -91,7 +106,10 @@
           </form.field>
         </fieldset>
         <fieldset class="modal-field">
-          <legend class="tooltipped modal-field-legend"> Description</legend>
+          <legend class="tooltipped modal-field-legend">
+             Description
+            <EmberTooltip @text="This is the description of Probe" @side="bottom" />
+          </legend>
           <form.field
             @value={{this.description}}
             @required={{true}}
@@ -104,7 +122,10 @@
           </form.field>
         </fieldset>
         <fieldset class="modal-field">
-          <legend class="tooltipped modal-field-legend"> Query</legend>
+          <legend class="tooltipped modal-field-legend">
+             Query
+            <EmberTooltip @text="Probe query" @side="bottom" />
+          </legend>
           <form.field
             @value={{this.query}}
             @onChange={{action (mut this.query)}}
@@ -152,7 +173,10 @@
           >
             <field.input id="testsOverlayLabelsUrl" class="modal-input" />
           </form.field>
-          <legend class="tooltipped modal-field-legend"> Tags</legend>
+          <legend class="tooltipped modal-field-legend">
+             Tags
+            <EmberTooltip @text="These are the tags" @side="bottom" />
+          </legend>
           <div class="chips-input chips-autocomplete">
             <Input
               id='tagInput' 
@@ -165,7 +189,9 @@
         </fieldset>
         <div class="category-section">
           <span class="category">
-            <i class="fa fa-info-circle tooltipped"></i>
+            <i class="fa fa-info-circle tooltipped">
+              <EmberTooltip @text="This is the Probe Category" @side="bottom" />
+            </i>
             Category:
           </span>
           <span id="testsOverlayCategory">{{this.pluginCategory}}</span>
@@ -179,7 +205,10 @@
         {{#if this.showHelpLinkInput}}
         <div id="helpLinkInput">
           <fieldset class="modal-field">
-            <legend class="tooltipped modal-field-legend"> Further Reading</legend>
+            <legend class="tooltipped modal-field-legend">
+               Further Reading
+              <EmberTooltip @text="Insert relevant link from documentation" @side="bottom" />
+            </legend>
             <form.field
               @value={{this.furtherReadingLink}}
               @required={{true}}
@@ -197,7 +226,10 @@
         </div>
         {{/if}}
         <fieldset class="modal-field">
-          <legend class="tooltipped modal-field-legend"> Probe Weighting</legend>
+          <legend class="tooltipped modal-field-legend">
+             Probe Weighting
+            <EmberTooltip @text="This is the information of Probe" @side="bottom" />
+          </legend>
           <table class="centered">
             <thead>
               <tr>

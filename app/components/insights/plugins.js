@@ -17,7 +17,6 @@ export default Component.extend({
   showPluginsModal: false,
   pluginsFilterLabel: 'Active Plugins',
   pluginsFilter: 'active',
-  lastScanEndedAt: 'e',
 
   plugins: reads('owner.insightsPlugins'),
 

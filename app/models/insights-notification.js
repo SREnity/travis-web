@@ -9,6 +9,8 @@ export default Model.extend({
   message: attr('string'),
   active: attr('boolean'),
   weight: attr('number'),
+  description: attr('string'),
+  descriptionLink: attr('string'),
 
   activeStatus: computed('active', function () {
     return this.active ? 'Active' : 'Snoozed';
@@ -22,5 +24,15 @@ export default Model.extend({
     } else {
       return 'critical';
     }
-  })
+  }),
+
+  alertMessage: computed('weight', function () {
+    if (this.weight < 1.75) {
+      return 'OK';
+    } else if (this.weight < 2.75) {
+      return 'Warning';
+    } else {
+      return 'Critical';
+    }
+  }),
 });

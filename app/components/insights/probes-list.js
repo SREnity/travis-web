@@ -31,16 +31,18 @@ export default Component.extend({
   }).restartable(),
 
   toggle: task(function* () {
-    let data = {
-      ids: this.selectedProbeIds,
-    };
-    const self = this;
+    if (this.selectedProbeIds.length) {
+      let data = {
+        ids: this.selectedProbeIds,
+      };
+      const self = this;
 
-    yield this.api.patch('/insights_probes/toggle_active', { data: data }).then(() => {
-      self.probes.reload();
-      self.set('selectedProbeIds', []);
-      self.set('isAllSelected', false);
-    });
+      yield this.api.patch('/insights_probes/toggle_active', { data: data }).then(() => {
+        self.probes.reload();
+        self.set('selectedProbeIds', []);
+        self.set('isAllSelected', false);
+      });
+    }
   }).drop(),
 
   actions: {
@@ -61,10 +63,18 @@ export default Component.extend({
     },
 
     openEditProbeModal() {
-      this.set('selectedProbe', this.store.peekRecord('insights-probe', this.selectedProbeIds[0]));
-      this.set('probeModalEditMode', true);
-      this.set('probeType', 'custom');
-      this.set('showProbesModal', true);
+      if (this.selectedProbeIds.length === 1) {
+        this.set('selectedProbe', this.store.peekRecord('insights-probe', this.selectedProbeIds[0]));
+        this.set('probeModalEditMode', true);
+        this.set('probeType', 'custom');
+        this.set('showProbesModal', true);
+      }
+    },
+
+    openDeleteProbeModal() {
+      if (this.selectedProbeIds.length) {
+        this.set('showRemoveProbeModal', true);
+      }
     },
 
     reloadProbes() {

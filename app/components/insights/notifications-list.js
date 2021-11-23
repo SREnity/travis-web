@@ -21,20 +21,22 @@ export default Component.extend({
   query: '',
 
   toggleNoifications: task(function* () {
-    const self = this;
+    if (this.selectedNotificationIds.length) {
+      const self = this;
 
-    try {
-      yield this.api.patch('/insights_notifications/toggle_snooze',  {
-        data: {
-          notification_ids: this.selectedNotificationIds
-        }
-      }).then(() => {
-        self.notifications.reload();
-        self.set('selectedNotificationIds', []);
-        self.set('isAllSelected', false);
-      });
-    } catch (e) {
-      this.flashes.error('There was an error toggling notifications. Please try again.');
+      try {
+        yield this.api.patch('/insights_notifications/toggle_snooze',  {
+          data: {
+            notification_ids: this.selectedNotificationIds
+          }
+        }).then(() => {
+          self.notifications.reload();
+          self.set('selectedNotificationIds', []);
+          self.set('isAllSelected', false);
+        });
+      } catch (e) {
+        this.flashes.error('There was an error toggling notifications. Please try again.');
+      }
     }
   }),
 

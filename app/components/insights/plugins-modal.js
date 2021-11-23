@@ -31,7 +31,7 @@ export default Component.extend({
   kubeGeneratedPublicId: null,
   kubeGeneratedPrivateKey: null,
 
-  pluginTypes: computed(() => newInsights.pluginTypes),
+  pluginTypes: computed(() => newInsights.pluginTypes.sort((a, b) => a.name.localeCompare(b.name))),
 
   selectedPlugin: newInsights.pluginTypes[0],
 
@@ -154,7 +154,7 @@ export default Component.extend({
       }).save();
       this.reloadPlugins();
       this.onClose();
-      this.flashes.success('Plugin saved successfully.');
+      this.flashes.success("User Plugin was successfully created! We're running a scan now, so it should update on your <a href='/insights/notifications'>Notifications</a> within the next five minutes.");
     } catch (error) {
       this.onClose();
       this.flashes.error('Unable to save plugin - please try again.');

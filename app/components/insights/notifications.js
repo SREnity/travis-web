@@ -17,7 +17,7 @@ export default Component.extend({
 
   notificationFilterLabel: 'Active Notifications',
   notificationFilter: 'active',
-  lastScanEndedAt: 'e',
+  lastScanEndedAt: null,
 
   notifications: reads('owner.insightsNotifications'),
 
@@ -36,7 +36,7 @@ export default Component.extend({
     }
   },
 
-  notificationCount: computed('notifications', function () {
+  notificationCount: computed('notifications.[]', function () {
     let count = {
       'info': 0,
       'low': 0,

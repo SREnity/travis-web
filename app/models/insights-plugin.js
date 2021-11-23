@@ -18,7 +18,11 @@ export default Model.extend({
   scanStatus: attr('string'),
   pluginStatus: attr('string'),
 
-  getScanLogs: task(function* () {
-    return yield this.api.get(`/insights_plugin/${this.id}/get_scan_logs`);
+  getScanLogs: task(function* (lastId) {
+    return yield this.api.get(`/insights_plugin/${this.id}/get_scan_logs`, {
+      data: {
+        last_id: lastId
+      }
+    });
   }).drop(),
 });
