@@ -359,3 +359,62 @@
   left: 20px;
   right: 1px;
 }
+
+.notification-second-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notifications-tiles {
+  display: flex;
+  margin: 20px 0px;
+}
+
+.notification-tile {
+  width: 40px;
+  height: 47px;
+  padding: 8px 0;
+  margin-left: 8px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.notification-type {
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'Roboto';
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.notification-count {
+  font-family: 'Roboto';
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tile-high {
+  color: #d94749;
+  background-color: #fce8e3;
+}
+
+.tile-low {
+  color: #3fa95a;
+  background-color: #dfecdd;
+}
+
+.tile-med {
+  color: #cdb62c;
+  background-color: #faf6da;
+}
+
+.tile-info {
+  color: #3eaaaf;
+  background-color: #b6d6d9;
+}
+
+.tile-total {
+  color: #666666;
+  background-color: #f1f1f1;
+}
