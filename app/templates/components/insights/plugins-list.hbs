@@ -67,7 +67,7 @@
         {{plugin.pluginCategory}}
       </td>
       <td>
-        {{moment-format plugin.lastScanEnd this.momentFormat}}
+        {{format-time-timezone plugin.lastScanEnd this.momentFormat this.timeZone}}
       </td>
       <td>
         <div class="icon-scan-status icon-scan-{{plugin.scanStatus}}"></div>

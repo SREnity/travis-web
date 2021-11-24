@@ -10,7 +10,11 @@ export default Component.extend({
   api: service(),
   preferences: service(),
 
-  timeZone: reads('preferences.insightsTimeZone'),
+  timeZone: computed('preferences.insightsTimeZone', function () {
+    if (this.preferences.insightsTimeZone) {
+      return this.preferences.insightsTimeZone.substr(this.preferences.insightsTimeZone.indexOf(')') + 2);
+    } else return '';
+  }),
   dateFormat: reads('preferences.insightsDateFormat'),
   timeFormat: reads('preferences.insightsTimeFormat'),
   momentFormat: computed('dateFormat', 'timeFormat', function () {

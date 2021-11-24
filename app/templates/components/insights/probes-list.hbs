@@ -96,12 +96,15 @@
       <td>
         {{probe.notification}}
       </td>
-      <td class="chipCell{{probe.id}}">
+      <td class="chipCell{{probe.id}} {{if probe.showMoreTags 'show-all-tags'}}">
         {{#each probe.tagList as |tag|}}
-          <div class='chip'>
+          <div class='chip tag-cell'>
             {{tag.name}}
           </div>
         {{/each}}
+        {{#if (and probe.tagListMore (not probe.showMoreTags))}}
+          <a class='more-tags' {{on 'click' (fn (mut probe.showMoreTags) true)}}>{{probe.tagMoreCount}} more</a>
+        {{/if}}
       </td>
       <td>
         {{probe.status}}

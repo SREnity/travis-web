@@ -189,9 +189,10 @@
         </fieldset>
         <div class="category-section">
           <span class="category">
-            <i class="fa fa-info-circle tooltipped">
-              <EmberTooltip @text="This is the Probe Category" @side="bottom" />
-            </i>
+            <span>
+              <SvgImage @name="icon-info" @class="icon-insights-info" />
+              <EmberTooltip @text="This is the Probe Category" @side="right" />
+            </span>
             Category:
           </span>
           <span id="testsOverlayCategory">{{this.pluginCategory}}</span>
@@ -211,7 +212,6 @@
             </legend>
             <form.field
               @value={{this.furtherReadingLink}}
-              @required={{true}}
               @onChange={{action (mut this.furtherReadingLink)}}
               @showValidationStatusIcons={{false}}
               @showValidationStatusMessage={{false}}
@@ -227,57 +227,34 @@
         {{/if}}
         <fieldset class="modal-field">
           <legend class="tooltipped modal-field-legend">
-             Probe Weighting
+             Severity
             <EmberTooltip @text="This is the information of Probe" @side="bottom" />
           </legend>
-          <table class="centered">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col"> Security</th>
-                <th scope="col"> Cost</th>
-                <th scope="col"> Delivery</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"> Architecture</th>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestSAW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestCAW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestDAW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-              </tr>
-              <tr>
-                <th scope="row"> Maintenance</th>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestSMW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestCMW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry-margin" id="testsOverlayTestDMW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-              </tr>
-              <tr>
-                <th scope="row"> Support</th>
-                <td>
-                  <input class="table-entry" id="testsOverlayTestSSW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry" id="testsOverlayTestCSW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-                <td>
-                  <input class="table-entry" id="testsOverlayTestDSW" type="number" min=0 max=1 step=0.05 value=0 />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class='probes-slider'>
+          <ul>
+            <li>Info</li>
+            <li>Low</li>
+            <li>Med</li>
+            <li>High</li>
+          </ul>
+          <form.field
+            @value={{this.probeSeverity}}
+            @onChange={{action (mut this.probeSeverity)}}
+            @showValidationStatusIcons={{false}}
+            @showValidationStatusMessage={{false}}
+            @showFrame={{false}}
+            as |field|
+          >
+            <field.slider
+              @min=0
+              @max=3
+              @step=1
+            />
+          </form.field>
+          </div>
+          <div class='probes-slider-icon'>
+            <SvgImage @name="icon-alert-{{this.probeSeverityLabel}}" @class="icon-insights-alert" />
+          </div>
         </fieldset>
       </div>
       <div class="modal-footer">

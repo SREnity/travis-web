@@ -24,6 +24,8 @@ export default Component.extend({
     this.set('plugins', this.owner.insightsPlugins);
   },
 
+  probeSeverityValues: ['info', 'low', 'med', 'high'],
+
   probeQueryEditorModal: false,
   showHelpLinkInput: false,
   plugins: null,
@@ -42,6 +44,10 @@ export default Component.extend({
   furtherReadingLink: '',
   sponsorName: '',
   sponsorUrl: '',
+  probeSeverity: 0,
+  probeSeverityLabel: computed('probeSeverity', function () {
+    return this.probeSeverityValues[this.probeSeverity];
+  }),
 
   pluginOptions: computed('plugins.@each', function () {
     const options = this.plugins.map((plugin) => (
@@ -73,6 +79,7 @@ export default Component.extend({
         }
         this.set('sponsorName', this.probe.sponsorName);
         this.set('sponsorUrl', this.probe.sponsorUrl);
+        this.set('probeSeverity', this.probeSeverityValues.indexOf(this.probe.probeSeverity));
       }
 
       const self = this;
@@ -102,53 +109,26 @@ export default Component.extend({
     this.set('tags', this.chipsInstance.chipsData.map((chip) => chip.tag).join());
 
     try {
+      let params = {
+        testTemplateId: this.selectedProbe ? this.selectedProbe.id : null,
+        notification: this.notification,
+        description: this.description,
+        test: this.query,
+        labels: {
+          sponsor_name: this.sponsorName,
+          sponsor_url: this.sponsorUrl
+        },
+        descriptionLink: this.furtherReadingLink,
+        tagList: this.tags,
+        probeSeverity: this.probeSeverityLabel
+      };
       if (this.editMode) {
-        this.probe.setProperties({
-          testTemplateId: this.selectedProbe ? this.selectedProbe.id : null,
-          notification: this.notification,
-          description: this.description,
-          test: this.query,
-          labels: {
-            sponsor_name: this.sponsorName,
-            sponsor_url: this.sponsorUrl
-          },
-          descriptionLink: this.furtherReadingLink,
-          tagList: this.tags,
-          securityArchitectureWeight: 0,
-          costArchitecture_weight: 0,
-          deliveryArchitectureWeight: 0,
-          securityMaintenanceWeight: 0,
-          costMaintenanceWeight: 0,
-          deliveryMaintenanceWeight: 0,
-          securitySupportWeight: 0,
-          costSupportWeight: 0,
-          deliverySupportWeight: 0,
-        });
+        this.probe.setProperties(params);
         yield this.probe.save();
       } else {
-        yield this.store.createRecord('insights-probe', {
-          testTemplateId: this.selectedProbe ? this.selectedProbe.id : null,
-          type: this.probeType,
-          notification: this.notification,
-          description: this.description,
-          test: this.query,
-          pluginType: this.selectedPlugin.id,
-          labels: {
-            sponsor_name: this.sponsorName,
-            sponsor_url: this.sponsorUrl
-          },
-          descriptionLink: this.furtherReadingLink,
-          tagList: this.tags,
-          securityArchitectureWeight: 0,
-          costArchitecture_weight: 0,
-          deliveryArchitectureWeight: 0,
-          securityMaintenanceWeight: 0,
-          costMaintenanceWeight: 0,
-          deliveryMaintenanceWeight: 0,
-          securitySupportWeight: 0,
-          costSupportWeight: 0,
-          deliverySupportWeight: 0,
-        }).save();
+        params['type'] = this.probeType;
+        params['pluginType'] = this.selectedPlugin.id;
+        yield this.store.createRecord('insights-probe', params).save();
       }
       this.reloadProbes();
       this.onClose();

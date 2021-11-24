@@ -145,7 +145,7 @@ export default Controller.extend({
   selectedDateFormat: reads('preferences.insightsDateFormat'),
   dateFormatList: ['DD/MM/YYYY', 'MM/DD/YYYY', 'YYYY/MM/DD'],
   selectedTimeFormat: reads('preferences.insightsTimeFormat'),
-  timeFormatList: ['h:mm:ss A', 'hh:mm:ss'],
+  timeFormatList: ['h:mm:ss A', 'HH:mm:ss'],
 
   insightsEmails: reads('preferences.insightsEmails'),
   toggleInsightsEmails: task(function* (value) {
