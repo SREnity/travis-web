@@ -79,7 +79,7 @@ export default Component.extend({
         }
         this.set('sponsorName', this.probe.sponsorName);
         this.set('sponsorUrl', this.probe.sponsorUrl);
-        this.set('probeSeverity', this.probeSeverityValues.indexOf(this.probe.probeSeverity));
+        this.set('probeSeverity', this.probeSeverityValues.indexOf(this.probe.severity));
       }
 
       const self = this;
@@ -153,6 +153,7 @@ export default Component.extend({
     this.set('furtherReadingLink', '');
     this.set('sponsorName', '');
     this.set('sponsorUrl', '');
+    this.set('probeSeverity', 0);
   },
 
   actions: {

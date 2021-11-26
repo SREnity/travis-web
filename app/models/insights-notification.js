@@ -11,28 +11,22 @@ export default Model.extend({
   weight: attr('number'),
   description: attr('string'),
   descriptionLink: attr('string'),
+  probeSeverity: attr('string'),
 
   activeStatus: computed('active', function () {
     return this.active ? 'Active' : 'Snoozed';
   }),
 
-  weightClass: computed('weight', function () {
-    if (this.weight < 1.75) {
-      return 'ok';
-    } else if (this.weight < 2.75) {
-      return 'warning';
-    } else {
-      return 'critical';
-    }
-  }),
-
-  alertMessage: computed('weight', function () {
-    if (this.weight < 1.75) {
-      return 'OK';
-    } else if (this.weight < 2.75) {
-      return 'Warning';
-    } else {
-      return 'Critical';
+  alertMessage: computed('probeSeverity', function () {
+    switch (this.probeSeverity) {
+      case 'info':
+        return 'Info';
+      case 'low':
+        return 'Severity Low';
+      case 'med':
+        return 'Severity Medium';
+      case 'high':
+        return 'Severity High';
     }
   }),
 });

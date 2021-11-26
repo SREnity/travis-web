@@ -16,7 +16,7 @@ export default Model.extend({
   description: attr(),
   test: attr(),
   descriptionLink: attr(),
-  probeSeverity: attr('string'),
+  severity: attr('string'),
 
   tagList: attr(),
   tagListMore: gt('tagList.length', 3),
@@ -24,14 +24,4 @@ export default Model.extend({
     return this.tagList.length - 3;
   }),
   showMoreTags: false,
-
-  securityArchitectureWeight: attr(),
-  costArchitecture_weight: attr(),
-  deliveryArchitectureWeight: attr(),
-  securityMaintenanceWeight: attr(),
-  costMaintenanceWeight: attr(),
-  deliveryMaintenanceWeight: attr(),
-  securitySupportWeight: attr(),
-  costSupportWeight: attr(),
-  deliverySupportWeight: attr(),
 });

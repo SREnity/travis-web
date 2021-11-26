@@ -46,14 +46,19 @@ export default Component.extend({
     };
 
     this.notifications.forEach(notification => {
-      if (notification.weight === 0) {
-        count.info++;
-      } else if (notification.weight < 1.75) {
-        count.low++;
-      } else if (notification.weight < 2.75) {
-        count.med++;
-      } else {
-        count.high++;
+      switch (notification.probeSeverity) {
+        case 'info':
+          count.info++;
+          break;
+        case 'low':
+          count.low++;
+          break;
+        case 'med':
+          count.med++;
+          break;
+        case 'high':
+          count.high++;
+          break;
       }
       count.total++;
     });
