@@ -120,7 +120,7 @@ export default Component.extend({
         },
         descriptionLink: this.furtherReadingLink,
         tagList: this.tags,
-        probeSeverity: this.probeSeverityLabel
+        severity: this.probeSeverityLabel
       };
       if (this.editMode) {
         this.probe.setProperties(params);

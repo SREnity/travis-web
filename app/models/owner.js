@@ -280,6 +280,7 @@ export default VcsEntity.extend({
     return yield this.store.paginated('insights-notification', {
       limit,
       page,
+      offset: (page - 1) * limit,
       sort_by: customOptions.sort,
       sort_direction: customOptions.sortDirection,
       active: customOptions.active,
@@ -293,6 +294,7 @@ export default VcsEntity.extend({
     return yield this.store.paginated('insights-plugin', {
       limit,
       page,
+      offset: (page - 1) * limit,
       sort_by: customOptions.sort,
       sort_direction: customOptions.sortDirection,
       active: customOptions.active,
@@ -306,6 +308,7 @@ export default VcsEntity.extend({
     return yield this.store.paginated('insights-probe', {
       limit,
       page,
+      offset: (page - 1) * limit,
       sort_by: customOptions.sort,
       sort_direction: customOptions.sortDirection,
       active: customOptions.active,
