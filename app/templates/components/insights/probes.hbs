@@ -1,18 +1,5 @@
 <div class="user-tests" id="user-tests">
-  <section class="user-tests__header">
-    <header>
-      <h5>Probes</h5>
-      <p class="subtitle-2">
-        {{#if this.lastScanEndedAt}}
-          Last Scan: {{this.lastScanEndedAt}}
-        {{/if}}
-      </p>
-    </header>
-  </section>
   <section class="user-tests__content">
-    <header>
-      <h6>Daily Probe List</h6>
-    </header>
     {{#basic-dropdown as |dd|}}
       {{#dd.trigger class='modal-field active-probe-filter browser-default probe-input-filter dropdown-trigger'}}
         <span id="active-probe-text">{{this.probeFilterLabel}}</span>

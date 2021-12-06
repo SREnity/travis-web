@@ -262,22 +262,22 @@
 .active-probe-filter {
   width: 190px;
   height: 46px;
-  border: 1px solid #f1f1f1;
   padding: 13px 20px 13px 13px;
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px 20px 0px;
   border-radius: 5px;
 }
 
 #active-probe-text {
   color: #3eaaaf;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 #active-probe-text:after {
   font-family: 'Material Icons';
   color: #3eaaaf;
   position: absolute;
-  left: 170px;
+  margin-left: 8px;
   content: 'keyboard_arrow_down';
 }
 

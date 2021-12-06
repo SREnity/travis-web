@@ -1,14 +1,5 @@
 <div class="row notification-row">
-  <div id="notification-first-col">
-    <h5>Notifications</h5>
-    {{#if this.lastScanEndedAt}}
-    <p>
-      Last Scan: {{this.lastScanEndedAt}}
-    </p>
-    {{/if}}
-  </div>
   <div id="notificationCol">
-    <h6>Daily Notification List</h6>
     <div class="notification-second-row">
       {{#basic-dropdown as |dd|}}
         {{#dd.trigger class='modal-field active-notification-filter browser-default notify-input-filter dropdown-trigger'}}

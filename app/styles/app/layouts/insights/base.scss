@@ -131,6 +131,14 @@ caption {
     color: $asphalt-gray !important;
     text-decoration: none;
   }
+
+  li:hover {
+    background-color: #f2fafa !important;
+  }
+
+  li:hover > a {
+    color: $oxide-blue !important;
+  }
 }
 
 .sidenav .collapsible-header:hover {
